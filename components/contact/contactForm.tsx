@@ -183,7 +183,7 @@ export const ContactForm = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="gotham bg-[#BC9750] hover:bg-[#a8853f] text-white uppercase tracking-wider py-3 w-full transition disabled:opacity-70"
+                            className="gotham bg-[#BC9750] hover:bg-[#726857] text-white uppercase tracking-wider py-3 w-full transition disabled:opacity-70"
                         >
                             {loading ? "Sending..." : "Send a Message"}
                         </button>

@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { motion, useInView, useMotionValue, useTransform, animate } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 
 // --- COMPONENT STATITEM (Không thay đổi) ---
 interface StatItemProps {
@@ -77,7 +78,7 @@ const StatItem = ({ value, label, index, isNumber, targetNumber, hoveredIndex, o
                     {finalDisplayValue}
                 </motion.h3>
             </div>
-            
+
             <div className='relative inline-block'>
                 <p className="arial-nova text-sm md:text-base font-medium text-gray-600 max-w-[300px] mx-auto pb-2">
                     {label}
@@ -116,11 +117,11 @@ export default function WhyChooseUs() {
         <div className="min-h-screen md:-mb-5">
             {/* About Section */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-                
+
                 <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
                     {/* Content Column (Cột text bên trái) */}
-                    <div className="order-1 lg:order-1 lg:col-span-6 space-y-5"> 
+                    <div className="order-1 lg:order-1 lg:col-span-6 space-y-5">
                         <p className="text-[#BC9750] gotham font-medium text-xl tracking-wider">
                             Why Choose Us
                         </p>
@@ -134,10 +135,12 @@ export default function WhyChooseUs() {
                                 Many offer tax advice, but few provide a truly bespoke, strategic framework. We redefine international tax advisory to suit your lifestyle and global ambitions. We are your strategists, not just accountants. We deliver unbiased, expert counsel backed by the highest professional qualifications.
                             </p>
                         </div>
+                        <Link href="/contact">
+                            <button className="gotham px-4 py-2.5 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none hover:shadow-lg md:text-xs">
+                                CONTACT OUR EXPERTS
+                            </button>
+                        </Link>
 
-                        <button className="gotham px-4 py-2.5 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none hover:shadow-lg md:text-xs">
-                            CONTACT OUR EXPERTS
-                        </button>
                     </div>
 
                     {/* Image Column (Cột ảnh bên phải) */}

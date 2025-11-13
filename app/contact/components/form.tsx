@@ -149,7 +149,7 @@ export const GetFreeConsultingSection = () => {
                                     <button
                                         type="submit"
                                         disabled={loading}
-                                        className="gotham bg-[#BC9750] hover:bg-[#a8853f] text-white uppercase tracking-wider py-4 transition disabled:opacity-70 font-medium"
+                                        className="gotham bg-[#BC9750] hover:bg-[#726857] text-white uppercase tracking-wider py-4 transition disabled:opacity-70 font-medium"
                                     >
                                         {loading ? "Sending..." : "Send a Message"}
                                     </button>
@@ -218,7 +218,7 @@ export const GetFreeConsultingSection = () => {
                                             Visit anytime
                                         </p>
                                         <a
-                                            href="#"
+                                            href="https://maps.app.goo.gl/XvLFSm3DThKU9fx96"
                                             className="text-[#BC9750] font-medium arial-nova text-lg"
                                         >
                                             771 Ngo Quyen, Son Tra Ward, Vietnam

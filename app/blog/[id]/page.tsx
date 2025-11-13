@@ -1,48 +1,366 @@
-import { notFound } from "next/navigation"
+"use client";
 
-async function getPostData(id: string) {
-  try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
-    const res = await fetch(`${API_URL}/api/post/${id}`, {
-      next: { revalidate: 60 },
-    })
-    if (!res.ok) return null
-    const data = await res.json()
-    return data.post
-  } catch (error) {
-    console.error("Error fetching post data:", error)
-    return null
-  }
+import { useEffect, useState } from "react";
+import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { Loader2, Link2, Linkedin, Instagram, MessageCircle, Check } from "lucide-react";
+import api from "@/lib/api";
+
+interface PostCategory {
+  postId: number;
+  categoryId: number;
+  assignedAt: string;
+  category: {
+    id: number;
+    name: string;
+    slug: string;
+    createdAt: string;
+  };
 }
 
-export default async function BlogDetailPage({
+interface BlogPost {
+  id: number;
+  title: string;
+  slug: string;
+  coverImage: string | null;
+  excerpt?: string;
+  contentHtml?: string;
+  author?: string;
+  wpCreatedAt?: string;
+  categories?: PostCategory[];
+}
+
+interface Category {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+export default function BlogDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = await params
-  const post = await getPostData(id)
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [latestPosts, setLatestPosts] = useState<BlogPost[]>([]);
+  const [allCategories, setAllCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null);
+  const [showLinkDialog, setShowLinkDialog] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  if (!post) return notFound()
+  // Resolve params
+  useEffect(() => {
+    params.then((p) => setResolvedParams(p));
+  }, [params]);
+
+  useEffect(() => {
+    if (!resolvedParams) return;
+
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        // Fetch post detail
+        const postRes = await api.get(`/api/post/${resolvedParams.id}`);
+        const postData = postRes.data.post;
+
+        if (!postData) {
+          notFound();
+          return;
+        }
+
+        setPost(postData);
+
+        // Fetch all posts for latest
+        const allPostsRes = await api.get("/api/post");
+        const allPosts = allPostsRes.data.posts || [];
+
+        // Get 3 latest posts (exclude current)
+        const latest = allPosts
+          .filter((p: BlogPost) => p.id !== postData.id)
+          .slice(0, 3);
+        setLatestPosts(latest);
+
+        // Fetch ALL categories from database
+        const categoriesRes = await api.get("/api/categories");
+        const categories = categoriesRes.data.categories || [];
+        setAllCategories(categories);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [resolvedParams]);
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
+  // Get current URL for sharing
+  const currentUrl = typeof window !== "undefined" ? window.location.href : "";
+  const shareTitle = post?.title || "";
+
+  // Copy link to clipboard
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(currentUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  };
+
+  // Share handlers
+  const shareOnLinkedIn = () => {
+    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`;
+    window.open(url, "_blank", "width=600,height=600");
+  };
+
+  const shareOnWhatsApp = () => {
+    const text = `${shareTitle} - ${currentUrl}`;
+    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    window.open(url, "_blank");
+  };
+
+  const shareOnInstagram = () => {
+    // Instagram không có direct share link, mở Instagram web
+    window.open("https://www.instagram.com/", "_blank");
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Loader2 className="h-10 w-10 animate-spin text-[#BC9750]" />
+      </div>
+    );
+  }
+
+  if (!post) {
+    return notFound();
+  }
+
+  const isActiveCategory = (categoryName: string) => {
+    return post.categories?.some(cat => cat.category.name === categoryName) || false;
+  };
 
   return (
-    <article className="max-w-3xl mx-auto px-6 py-12">
-      {post.coverImage && (
-        <div className="mb-6">
-          <img
+    <div className="w-full bg-white">
+      {/* Banner Section */}
+      <div className="relative w-full h-[400px] md:h-[500px] mb-12">
+        {post.coverImage && (
+          <Image
             src={post.coverImage}
             alt={post.title}
-            className="w-full h-80 object-cover rounded-xl shadow"
+            fill
+            className="object-cover"
+            priority
           />
+        )}
+        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/40 to-transparent" />
+
+        <div className="absolute inset-0 flex items-center justify-center px-6 md:px-12 lg:px-20">
+          <div className="max-w-4xl text-center">
+            <h1 className="trajan-pro text-3xl md:text-4xl lg:text-5xl font-medium text-white leading-tight">
+              {post.title}
+            </h1>
+          </div>
+        </div>
+      </div>
+
+      {/* Content Section */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          {/* Main Content */}
+          <article className="lg:col-span-8">
+            <div
+              className="arial-nova prose prose-lg max-w-none
+                [&_h1]:text-5xl! [&_h1]:font-bold! [&_h1]:mb-8! [&_h1]:mt-12! [&_h1]:text-[#041122]!
+                [&_h2]:text-4xl! [&_h2]:font-bold! [&_h2]:mb-7! [&_h2]:mt-10! [&_h2]:text-[#041122]!
+                [&_h3]:text-3xl! [&_h3]:font-semibold! [&_h3]:mb-6! [&_h3]:mt-8! [&_h3]:text-[#041122]!
+                [&_h4]:text-2xl! [&_h4]:font-semibold! [&_h4]:mb-5! [&_h4]:text-[#041122]!
+                [&_p]:text-xl! [&_p]:text-[#4D4946]! [&_p]:leading-normal! [&_p]:mb-4!
+                [&_img]:rounded-none! [&_img]:shadow-md! [&_img]:my-10!
+                [&_a]:text-[#BC9750]! [&_a]:no-underline! hover:[&_a]:underline!
+                [&_strong]:text-[#041122]! [&_strong]:font-semibold!
+                [&_ul]:list-disc! [&_ul]:text-xl! [&_ul]:list-outside! [&_ul]:ml-6! [&_ul]:my-4! [&_ul]:space-y-1!
+                [&_ol]:list-decimal! [&_ol]:text-xl! [&_ol]:list-outside! [&_ol]:ml-6! [&_ol]:my-6! [&_ol]:space-y-1!
+                [&_li]:text-[#4D4946]! [&_li]:leading-normal!
+                [&_div]:text-xl! [&_div]:text-[#4D4946]! [&_div]:leading-normal!
+                [&_span]:text-xl! [&_span]:text-[#4D4946]!
+              "
+              dangerouslySetInnerHTML={{
+                __html: post.contentHtml || "",
+              }}
+            />
+
+            {/* Social Share Section */}
+            <div className="mt-12 pt-8 border-t border-[#726857]">
+              <div className="flex items-center gap-4">
+                {/* Copy Link */}
+                <button
+                  onClick={() => setShowLinkDialog(true)}
+                  className="text-[#726857] hover:text-[#BC9750] transition-colors"
+                  title="Copy link"
+                >
+                  <Link2 size={20} />
+                </button>
+
+                {/* LinkedIn */}
+                <button
+                  onClick={shareOnLinkedIn}
+                  className="text-[#726857] hover:text-[#BC9750] transition-colors"
+                  title="Share on LinkedIn"
+                >
+                  <Linkedin size={20} />
+                </button>
+
+                {/* Instagram */}
+                <button
+                  onClick={shareOnInstagram}
+                  className="text-[#726857] hover:text-[#BC9750] transition-colors"
+                  title="Share on Instagram"
+                >
+                  <Instagram size={20} />
+                </button>
+
+                {/* WhatsApp */}
+                <button
+                  onClick={shareOnWhatsApp}
+                  className="text-[#726857] hover:text-[#BC9750] transition-colors"
+                  title="Share on WhatsApp"
+                >
+                  <MessageCircle size={20} />
+                </button>
+              </div>
+            </div>
+          </article>
+
+          {/* Sidebar */}
+          <aside className="lg:col-span-4 space-y-10">
+            {/* Latest Posts */}
+            {latestPosts.length > 0 && (
+              <div className="bg-[#F2F0EC] p-6">
+                <h3 className="trajan-pro text-xl font-medium text-[#041122] mb-6 pb-3">
+                  Latest Posts
+                </h3>
+
+                <div className="space-y-6">
+                  {latestPosts.map((latestPost) => (
+                    <Link
+                      key={latestPost.id}
+                      href={`/blog/${latestPost.id}`}
+                      className="group block"
+                    >
+                      <div className="flex gap-4">
+                        {latestPost.coverImage && (
+                          <div className="relative w-24 h-20 shrink-0 overflow-hidden">
+                            <Image
+                              src={latestPost.coverImage}
+                              alt={latestPost.title}
+                              fill
+                              className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                        )}
+
+                        <div className="flex-1">
+                          <h4 className="arial-nova text-sm font-medium text-[#041122] group-hover:text-[#BC9750] transition-colors line-clamp-2 mb-2">
+                            {latestPost.title}
+                          </h4>
+                          <span className="text-xs text-[#4D4946]">
+                            {formatDate(latestPost.wpCreatedAt)}
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Categories */}
+            {allCategories.length > 0 && (
+              <div className="bg-[#F2F0EC] p-6">
+                <h3 className="trajan-pro text-xl font-medium text-[#041122] mb-2 pb-3">
+                  Categories
+                </h3>
+
+                <div className="space-y-2">
+                  {allCategories.map((cat) => (
+                    <div
+                      key={cat.id}
+                      className={`arial-nova px-4 py-3 text-lg transition-all cursor-pointer ${
+                        isActiveCategory(cat.name)
+                          ? "bg-white text-[#BC9750] shadow-sm font-medium"
+                          : "bg-transparent text-[#041122"
+                      }`}
+                    >
+                      {cat.name}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </aside>
+        </div>
+      </div>
+
+      {/* Link Dialog */}
+      {showLinkDialog && (
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4"
+          onClick={() => setShowLinkDialog(false)}
+        >
+          <div
+            className="bg-white rounded-lg p-6 max-w-md w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="trajan-pro text-xl font-medium text-[#041122] mb-4">
+              Share this post
+            </h3>
+            
+            <div className="flex items-center gap-2 mb-4">
+              <input
+                type="text"
+                value={currentUrl}
+                readOnly
+                className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm text-[#4D4946] bg-gray-50"
+              />
+              <button
+                onClick={copyLink}
+                className="px-4 py-2 bg-[#BC9750] text-white rounded hover:bg-[#726857] transition-colors flex items-center gap-2 whitespace-nowrap"
+              >
+                {copied ? (
+                  <>
+                    <Check size={16} />
+                    Copied!
+                  </>
+                ) : (
+                  "Copy"
+                )}
+              </button>
+            </div>
+
+            <button
+              onClick={() => setShowLinkDialog(false)}
+              className="w-full px-4 py-2 bg-gray-200 text-[#041122] rounded hover:bg-gray-300 transition-colors"
+            >
+              Close
+            </button>
+          </div>
         </div>
       )}
-      <h1 className="text-3xl font-bold mb-6">{post.title}</h1>
-      <div
-        className="prose max-w-none"
-        dangerouslySetInnerHTML={{
-          __html: post.contentHtml || "",
-        }}
-      />
-    </article>
-  )
+    </div>
+  );
 }

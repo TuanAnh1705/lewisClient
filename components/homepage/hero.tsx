@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export function Hero() {
   return (
@@ -27,12 +28,14 @@ export function Hero() {
           Bespoke tax strategies for high-net-worth individuals and entrepreneurs
           in the UK and Europe.
         </p>
-        <Button
-          variant="secondary"
-          className="gotham mt-8 bg-[#BC9750] text-white text-lg px-8 py-6 font-button rounded-none transition-colors hover:bg-[#726857] hover:text-gray-100"
-        >
-          Book a Strategy Call
-        </Button>
+        <Link href="/contact">
+          <Button
+            variant="secondary"
+            className="gotham mt-8 bg-[#BC9750] text-white text-lg px-8 py-6 font-button rounded-none transition-colors hover:bg-[#726857] hover:text-gray-100"
+          >
+            Book a Strategy Call
+          </Button>
+        </Link>
       </div>
     </section>
   );

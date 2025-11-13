@@ -18,14 +18,14 @@ export function Header() {
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
-            
+
             // Check if at top of page
             if (currentScrollY < 10) {
                 setIsAtTop(true);
                 setScrollDirection("up");
             } else {
                 setIsAtTop(false);
-                
+
                 // Determine scroll direction
                 if (currentScrollY > lastScrollY) {
                     setScrollDirection("down");
@@ -33,7 +33,7 @@ export function Header() {
                     setScrollDirection("up");
                 }
             }
-            
+
             setLastScrollY(currentScrollY);
         };
 
@@ -84,7 +84,7 @@ export function Header() {
             }}
         >
             {/* Top bar - only show when at top of page */}
-            <AnimatePresence>
+            {/* <AnimatePresence>
                 {isAtTop && (
                     <motion.div
                         initial={{ height: 0, opacity: 0 }}
@@ -124,7 +124,7 @@ export function Header() {
                                     <span>771 Ngo Quyen, An Hai Ward, Vietnam</span>
                                 </div>
 
-                                {/* Line separator */}
+                                
                                 <div className="mx-4 h-4 w-px bg-[#BC9750]" />
 
                                 <div className="arial-nova flex items-center gap-2">
@@ -135,7 +135,7 @@ export function Header() {
                         </div>
                     </motion.div>
                 )}
-            </AnimatePresence>
+            </AnimatePresence> */}
 
             {/* Main navigation */}
             <div className="bg-white relative">
@@ -176,7 +176,7 @@ export function Header() {
                                         transition={{ duration: 0.2 }}
                                         className={cn(
                                             "fixed left-0 right-0 bg-white shadow-xl border-t border-gray-200 z-50",
-                                            isAtTop ? "top-[135px]" : "top-[95px]"
+                                            isAtTop ? "top-[98px]" : "top-[95px]"
                                         )}
                                     >
                                         <div className="container mx-auto px-4">
@@ -240,7 +240,7 @@ export function Header() {
                                                                 Send us your email
                                                             </p>
                                                             <a
-                                                                href="#"
+                                                                href="mailto:lsjtax@infor.com"
                                                                 className="text-[#BC9750] font-medium arial-nova text-sm"
                                                             >
                                                                 lsjtax@infor.com
@@ -258,7 +258,7 @@ export function Header() {
                                                                 Visit anytime
                                                             </p>
                                                             <a
-                                                                href="#"
+                                                                href="https://maps.app.goo.gl/XvLFSm3DThKU9fx96"
                                                                 className="text-[#BC9750] font-medium arial-nova text-sm"
                                                             >
                                                                 771 Ngo Quyen, Son Tra Ward, Vietnam
@@ -302,7 +302,7 @@ export function Header() {
                                         transition={{ duration: 0.2 }}
                                         className={cn(
                                             "fixed left-0 right-0 bg-white shadow-xl border-t border-gray-200 z-50",
-                                            isAtTop ? "top-[135px]" : "top-[95px]"
+                                            isAtTop ? "top-[98px]" : "top-[95px]"
                                         )}
                                     >
                                         <div className="container mx-auto px-4 py-8">
@@ -322,7 +322,7 @@ export function Header() {
                                                                 fill
                                                                 className="object-cover group-hover:scale-110 transition-transform duration-500"
                                                             />
-                                                            
+
                                                             {/* Text Content */}
                                                             <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
                                                                 {service.subtitle && (
@@ -360,14 +360,16 @@ export function Header() {
 
                     {/* Right: button */}
                     <div className="flex items-center gap-4">
-                        <Button
-                            className={cn(
-                                "gotham bg-[#BC9750] text-white rounded-none px-6 py-2 uppercase tracking-wide",
-                                "hover:bg-[#726857] transition-colors"
-                            )}
-                        >
-                            Become Our Client
-                        </Button>
+                        <Link href="/contact">
+                            <Button
+                                className={cn(
+                                    "gotham bg-[#BC9750] text-white rounded-none px-6 py-2 uppercase tracking-wide",
+                                    "hover:bg-[#726857] transition-colors"
+                                )}
+                            >
+                                Become Our Client
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>

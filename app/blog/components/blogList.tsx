@@ -113,8 +113,6 @@ export default function BlogSection() {
                         GET THE LATEST INSIGHTS
                     </h2>
 
-                    {/* * THAY ĐỔI: Tăng min-h trên desktop để chứa layout mới (lg:min-h-[450px])
-      */}
                     <div className="relative min-h-[400px] lg:min-h-[450px]">
                         <AnimatePresence mode="wait" custom={direction}>
                             {currentLatestPost && (
@@ -175,43 +173,42 @@ export default function BlogSection() {
                                                 </div>
                                             </div>
 
-                                            <Link href={`/blog/${currentLatestPost.id}`}>
-                                                <button className="gotham bg-[#041122] text-[#BC9750] flex items-center gap-1 px-8 py-3 tracking-wider hover:bg-[#BC9750] hover:text-[#041122] transition-colors">
-                                                    Explore Now
-                                                    <ArrowUpRight className="w-4 h-4" />
-                                                </button>
-                                            </Link>
+                                            {/* Button và Arrows cùng hàng */}
+                                            <div className="flex items-center justify-between">
+                                                <Link href={`/blog/${currentLatestPost.id}`}>
+                                                    <button className="gotham bg-[#041122] text-[#BC9750] flex items-center gap-1 px-8 py-3 tracking-wider hover:bg-[#BC9750] hover:text-[#041122] transition-colors">
+                                                        Explore Now
+                                                        <ArrowUpRight className="w-4 h-4" />
+                                                    </button>
+                                                </Link>
+
+                                                {/* Navigation Arrows */}
+                                                {latestPosts.length > 1 && (
+                                                    <div className="flex gap-4">
+                                                        <motion.button
+                                                            onClick={handleLatestPrev}
+                                                            aria-label="Previous post"
+                                                            className="w-12 h-12 flex items-center justify-center text-[#BC9750] hover:border hover:border-[#726857]  hover:text-[#726857] transition-all duration-300"
+                                                        >
+                                                            <ArrowLeft size={24} />
+                                                        </motion.button>
+
+                                                        <motion.button
+                                                            onClick={handleLatestNext}
+                                                            aria-label="Next post"
+                                                            className="w-12 h-12 flex items-center justify-center text-[#BC9750] hover:border hover:border-[#726857]  hover:text-[#726857] transition-all duration-300"
+                                                        >
+                                                            <ArrowRight size={24} />
+                                                        </motion.button>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 </motion.div>
                             )}
                         </AnimatePresence>
                     </div>
-
-                    {/* Arrows */}
-                    {latestPosts.length > 1 && (
-                        <div className="flex justify-center gap-14 mt-8">
-                            <motion.button
-                                whileHover={{ scale: 1.2, color: "#BC9750" }}
-                                whileTap={{ scale: 0.9 }}
-                                onClick={handleLatestPrev}
-                                aria-label="Previous post"
-                                className="text-[#726857] transition-colors"
-                            >
-                                <ArrowLeft size={36} />
-                            </motion.button>
-
-                            <motion.button
-                                whileHover={{ scale: 1.2, color: "#BC9750" }}
-                                whileTap={{ scale: 0.9 }}
-                                onClick={handleLatestNext}
-                                aria-label="Next post"
-                                className="text-[#726857] transition-colors"
-                            >
-                                <ArrowRight size={36} />
-                            </motion.button>
-                        </div>
-                    )}
                 </section>
 
                 {/* === FROM OUR DESK === */}
@@ -280,7 +277,7 @@ export default function BlogSection() {
                                 ))}
                             </div>
 
-                            {/* Pagination */}
+                                            {/* Pagination */}
                             {totalPages > 1 && (
                                 <div className="flex justify-center items-center gap-4 mt-12">
                                     <button

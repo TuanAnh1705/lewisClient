@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function ImgBottom() {
     return (
@@ -26,9 +27,11 @@ export default function ImgBottom() {
                     </h1>
 
                     {/* THAY ĐỔI Ở ĐÂY: Thêm 'mt-6' */}
-                    <button className="gotham px-4 md:mt-10 py-2.5 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none shadow-md hover:shadow-lg md:text-xs">
-                        LET’S GET STARTED
-                    </button>
+                    <Link href="/contact">
+                        <button className="gotham px-4 md:mt-10 py-2.5 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none shadow-md hover:shadow-lg md:text-xs">
+                            LET’S GET STARTED
+                        </button>
+                    </Link>
                 </div>
             </section>
         </div>

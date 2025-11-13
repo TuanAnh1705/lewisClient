@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function FinancialExpertise() {
   return (
@@ -65,10 +66,11 @@ export default function FinancialExpertise() {
                 I founded this firm to close that gap. My journey has been driven by a passion for solving complex puzzles and a commitment to providing the calibre of advice that high-achievers deserve.
               </p>
             </div>
-
-            <button className="gotham mt-1.5 px-6 py-3 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none  hover:shadow-lg md:text-sm">
-              BOOK A STRATEGY CALL
-            </button>
+            <Link href="/contact">
+              <button className="gotham mt-1.5 px-6 py-3 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none  hover:shadow-lg md:text-sm">
+                BOOK A STRATEGY CALL
+              </button>
+            </Link>
           </div>
         </div>
       </section>
