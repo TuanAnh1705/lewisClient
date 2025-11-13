@@ -1,0 +1,39 @@
+import Image from 'next/image';
+
+export default function ImgBottom() {
+    return (
+        <div className="">
+            {/* Hero Section */}
+            <section className="relative h-[400px] flex items-center justify-center overflow-hidden ">
+                {/* Background Image - Replace with your actual image */}
+                <div className="absolute inset-0 z-0 bg-black">
+                    <Image
+                        src="/assets/ourclient.png" // Replace with your image path
+                        alt="Financial background"
+                        fill
+                        className="object-cover opacity-60"
+                        priority
+                    />
+                    {/* Overlay */}
+
+                </div>
+
+                {/* Hero Content */}
+                {/* THAY ĐỔI Ở ĐÂY: Thêm 'flex flex-col items-center' */}
+                <div className="relative z-10 flex flex-col items-center text-center px-4">
+                    <h1 className="trajan-pro text-4xl md:text-5xl lg:text-5xl lg:max-w-6xl font-medium text-white ">
+                        Could You Be Our Next Success Story?
+                    </h1>
+                    <p className='arial-nova text-xs md:text-md lg:text-lg text-white font-medium lg:max-w-2xl md:mt-5'>
+                        If you are a professional or entrepreneur facing complex cross-border tax challenges, you are in the right place.
+                    </p>
+
+                    {/* THAY ĐỔI Ở ĐÂY: Thêm 'mt-6' */}
+                    <button className="gotham px-4 md:mt-10 py-2.5 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none shadow-md hover:shadow-lg md:text-xs">
+                        SEE IF WE ARE A GOOD FIT
+                    </button>
+                </div>
+            </section>
+        </div>
+    );
+}
