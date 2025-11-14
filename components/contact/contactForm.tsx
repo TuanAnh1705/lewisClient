@@ -80,11 +80,22 @@ export const ContactForm = () => {
     return (
         <>
             <Toaster
+                // Vị trí này không còn quan trọng khi ta dùng containerStyle
                 position="top-center"
+
+                // --- BẮT BUỘC THÊM VÀO ĐỂ CĂN GIỮA ---
+                containerStyle={{
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                }}
+                // ------------------------------------
+
                 toastOptions={{
                     style: {
                         background: 'black',
                         color: 'white',
+                        fontSize: '18px',
                     },
                 }}
             />
@@ -154,7 +165,7 @@ export const ContactForm = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <input
                                 name="netWorth"
-                                placeholder="Your Current Net Worth"
+                                placeholder="Your Current Income (USD)"
                                 value={formData.netWorth}
                                 onChange={handleChange}
                                 className="arial-nova border-b text-[#726857] border-[#726857] p-2 outline-none bg-transparent"

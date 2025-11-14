@@ -36,7 +36,7 @@ export const GetFreeConsultingSection = () => {
         e.preventDefault();
         const { name, email, netWorth, phone, message } = formData;
 
-        // Validation logic
+        // Validation logic (Phần này của bạn đã chính xác)
         if (!name || !email || !netWorth || !phone || !message) {
             toast.error("Submit failed. Please fill in all fields.");
             return;
@@ -74,15 +74,28 @@ export const GetFreeConsultingSection = () => {
 
     return (
         <div>
+            {/* --- THAY ĐỔI TOASTER --- */}
             <Toaster
+                // Vị trí này không còn quan trọng khi ta dùng containerStyle
                 position="top-center"
+
+                // --- BẮT BUỘC THÊM VÀO ĐỂ CĂN GIỮA ---
+                containerStyle={{
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                }}
+                // ------------------------------------
+
                 toastOptions={{
                     style: {
                         background: 'black',
                         color: 'white',
+                        fontSize: '18px',
                     },
                 }}
             />
+            {/* --------------------------- */}
 
             <section className="w-full py-20 bg-whiteS">
                 <div className="max-w-7xl mx-auto px-4">
@@ -105,6 +118,7 @@ export const GetFreeConsultingSection = () => {
                                         value={formData.name}
                                         onChange={handleChange}
                                         className="arial-nova border-b border-[#4D4946] pb-3 outline-none bg-transparent text-[#4D4946] placeholder:text-[#4D4946]/50"
+                                        required // THÊM "required"
                                     />
                                     <input
                                         name="email"
@@ -113,6 +127,7 @@ export const GetFreeConsultingSection = () => {
                                         value={formData.email}
                                         onChange={handleChange}
                                         className="arial-nova border-b border-[#4D4946] pb-3 outline-none bg-transparent text-[#4D4946] placeholder:text-[#4D4946]/50"
+                                        required // THÊM "required"
                                     />
                                 </div>
 
@@ -120,10 +135,11 @@ export const GetFreeConsultingSection = () => {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <input
                                         name="netWorth"
-                                        placeholder="Your Current Net Worth"
+                                        placeholder="Your Current Income (USD)"
                                         value={formData.netWorth}
                                         onChange={handleChange}
                                         className="arial-nova border-b border-[#4D4946] pb-3 outline-none bg-transparent text-[#4D4946] placeholder:text-[#4D4946]/50"
+                                        required // THÊM "required"
                                     />
                                     <input
                                         name="phone"
@@ -131,6 +147,7 @@ export const GetFreeConsultingSection = () => {
                                         value={formData.phone}
                                         onChange={handleChange}
                                         className="arial-nova border-b border-[#4D4946] pb-3 outline-none bg-transparent text-[#4D4946] placeholder:text-[#4D4946]/50"
+                                        required // THÊM "required"
                                     />
                                 </div>
 
@@ -142,6 +159,7 @@ export const GetFreeConsultingSection = () => {
                                     value={formData.message}
                                     onChange={handleChange}
                                     className="arial-nova border-b border-[#4D4946] w-full pb-3 outline-none bg-transparent text-[#4D4946] placeholder:text-[#4D4946]/50 resize-none"
+                                    required // THÊM "required"
                                 />
 
                                 {/* Buttons */}
