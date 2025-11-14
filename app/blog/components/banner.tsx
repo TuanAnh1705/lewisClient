@@ -21,7 +21,7 @@ export default function Banner() {
                 {/* Hero Content */}
                 {/* THAY ĐỔI Ở ĐÂY: Thêm 'flex flex-col items-center' */}
                 <div className="relative z-10 flex flex-col items-center text-center px-4">
-                    <h1 className="trajan-pro text-4xl md:text-5xl lg:text-5xl lg:max-w-5xl font-medium text-white ">
+                    <h1 className="trajan-pro text-4xl md:text-5xl lg:text-5xl lg:max-w-3xl font-medium text-white ">
                         Insights for a World<span className='text-[#BC9750]'> Without Financial Borders</span>
                     </h1>
                     
