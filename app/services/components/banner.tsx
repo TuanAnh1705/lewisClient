@@ -21,8 +21,8 @@ export default function Banner() {
                 {/* Hero Content */}
                 {/* THAY ĐỔI Ở ĐÂY: Thêm 'flex flex-col items-center' */}
                 <div className="relative z-10 flex flex-col items-center text-center px-4">
-                    <h1 className="trajan-pro text-4xl md:text-5xl lg:text-5xl lg:max-w-4xl font-medium text-white ">
-                        <span className='text-[#BC9750]'>Bespoke Tax Strategies</span> for International Success
+                    <h1 className="trajan-pro text-4xl md:text-5xl lg:text-5xl lg:max-w-3xl font-medium text-white ">
+                        <span className='text-[#BC9750]'>Bespoke </span>Tax Strategies for International Success
                     </h1>
                     
                     {/* THAY ĐỔI Ở ĐÂY: Thêm 'mt-6' */}

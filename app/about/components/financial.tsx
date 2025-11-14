@@ -22,8 +22,8 @@ export default function FinancialExpertise() {
         {/* Hero Content */}
         <div className="relative z-10 text-center px-4">
           <h1 className="trajan-pro text-4xl md:text-5xl lg:text-5xl lg:max-w-6xl font-medium text-white ">
-            The Expertise and Philosophy Behind
-            your Financial Success
+            The Expertise and Philosophy Behind{' '}
+            <span className='text-[#BC9750]'>your Financial Success</span>
           </h1>
         </div>
       </section>

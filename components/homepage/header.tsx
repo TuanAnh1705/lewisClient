@@ -2,18 +2,87 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Linkedin, Instagram, Facebook, Mail, MapPin, Search, Phone } from "lucide-react";
+import { Mail, MapPin, Search, Phone, X, Loader2, ChevronDown, ChevronUp } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import api from "@/lib/api";
+
+interface BlogPost {
+    id: number;
+    title: string;
+    slug: string;
+    coverImage: string | null;
+    excerpt?: string;
+    wpCreatedAt?: string;
+}
 
 export function Header() {
     const [isAboutOpen, setIsAboutOpen] = useState(false);
     const [isServicesOpen, setIsServicesOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResults, setSearchResults] = useState<BlogPost[]>([]);
+    const [isSearching, setIsSearching] = useState(false);
+    const [showAllResults, setShowAllResults] = useState(false);
     const [scrollDirection, setScrollDirection] = useState<"up" | "down">("up");
     const [isAtTop, setIsAtTop] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
+    const searchInputRef = useRef<HTMLInputElement>(null);
+    const searchDialogRef = useRef<HTMLDivElement>(null);
+
+    // Close search when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                isSearchOpen &&
+                searchDialogRef.current &&
+                !searchDialogRef.current.contains(event.target as Node)
+            ) {
+                setIsSearchOpen(false);
+                setSearchQuery("");
+                setSearchResults([]);
+                setShowAllResults(false);
+            }
+        };
+
+        if (isSearchOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isSearchOpen]);
+
+    // Prevent body scroll when search dialog is open
+    useEffect(() => {
+        if (isSearchOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+
+        return () => {
+            document.body.style.overflow = "unset";
+        };
+    }, [isSearchOpen]);
+
+    // Close search dialog on ESC key
+    useEffect(() => {
+        const handleEscKey = (event: KeyboardEvent) => {
+            if (event.key === "Escape" && isSearchOpen) {
+                setIsSearchOpen(false);
+                setSearchQuery("");
+                setSearchResults([]);
+                setShowAllResults(false);
+            }
+        };
+
+        document.addEventListener("keydown", handleEscKey);
+        return () => document.removeEventListener("keydown", handleEscKey);
+    }, [isSearchOpen]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -40,6 +109,80 @@ export function Header() {
         window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, [lastScrollY]);
+
+    // Focus input when search opens
+    useEffect(() => {
+        if (isSearchOpen && searchInputRef.current) {
+            searchInputRef.current.focus();
+        }
+    }, [isSearchOpen]);
+
+    // Search function
+    useEffect(() => {
+        const searchPosts = async () => {
+            if (searchQuery.trim() === "") {
+                setSearchResults([]);
+                setShowAllResults(false);
+                return;
+            }
+
+            setIsSearching(true);
+            try {
+                const response = await api.get("/api/post");
+                const allPosts = response.data.posts || [];
+
+                // Filter posts by search query
+                const filtered = allPosts.filter((post: BlogPost) =>
+                    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    post.excerpt?.toLowerCase().includes(searchQuery.toLowerCase())
+                );
+
+                setSearchResults(filtered);
+                setShowAllResults(false); // Reset to show only 3 when search changes
+            } catch (error) {
+                console.error("Search error:", error);
+                setSearchResults([]);
+            } finally {
+                setIsSearching(false);
+            }
+        };
+
+        const debounceTimer = setTimeout(() => {
+            searchPosts();
+        }, 300);
+
+        return () => clearTimeout(debounceTimer);
+    }, [searchQuery]);
+
+    const handleSearchToggle = () => {
+        setIsSearchOpen(!isSearchOpen);
+        if (isSearchOpen) {
+            setSearchQuery("");
+            setSearchResults([]);
+            setShowAllResults(false);
+        }
+    };
+
+    const handleSearchResultClick = () => {
+        setIsSearchOpen(false);
+        setSearchQuery("");
+        setSearchResults([]);
+        setShowAllResults(false);
+    };
+
+    const formatDate = (dateString?: string) => {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        return date.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+        });
+    };
+
+    // Get displayed results (3 or all)
+    const displayedResults = showAllResults ? searchResults : searchResults.slice(0, 3);
+    const hasMoreResults = searchResults.length > 3;
 
     const services = [
         {
@@ -83,60 +226,6 @@ export function Header() {
                 ease: "easeInOut"
             }}
         >
-            {/* Top bar - only show when at top of page */}
-            {/* <AnimatePresence>
-                {isAtTop && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="text-[#041122] text-xs border-b border-[#BC9750] overflow-hidden"
-                    >
-                        <div className="container mx-auto flex justify-between items-center py-2 px-4">
-                            <div className="flex items-center gap-4">
-                                <Link href="#" aria-label="Twitter X" className="hover:text-[#BC9750]">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 1200 1227"
-                                        width="20"
-                                        height="20"
-                                        fill="currentColor"
-                                    >
-                                        <path d="M714.163 519.284L1177.67 0H1071.46L667.137 462.675L353.112 0H0L483.048 700.909L0 1226.37H106.215L531.557 736.008L866.888 1226.37H1200L714.163 519.284ZM583.284 672.009L537.412 606.056L144.615 79.534H303.009L600.282 505.529L646.154 571.482L1057.47 1150.47H899.074L583.284 672.009Z" />
-                                    </svg>
-                                </Link>
-
-                                <Link href="#" aria-label="LinkedIn" className="hover:text-[#BC9750]">
-                                    <Linkedin size={20} />
-                                </Link>
-                                <Link href="#" aria-label="Facebook" className="hover:text-[#BC9750]">
-                                    <Facebook size={20} />
-                                </Link>
-                                <Link href="#" aria-label="Instagram" className="hover:text-[#BC9750]">
-                                    <Instagram size={20} />
-                                </Link>
-                            </div>
-
-                            <div className="flex items-center text-[#041122]">
-                                <div className="arial-nova flex items-center gap-2">
-                                    <MapPin size={20} />
-                                    <span>771 Ngo Quyen, An Hai Ward, Vietnam</span>
-                                </div>
-
-                                
-                                <div className="mx-4 h-4 w-px bg-[#BC9750]" />
-
-                                <div className="arial-nova flex items-center gap-2">
-                                    <Mail size={20} />
-                                    <span>lsjtax@info.com</span>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence> */}
-
             {/* Main navigation */}
             <div className="bg-white relative">
                 <div className="container mx-auto flex justify-between items-center py-4 px-4">
@@ -353,8 +442,12 @@ export function Header() {
                         <Link href="/contact" className="hover:text-[#BC9750] transition-colors">
                             Contact
                         </Link>
-                        <button aria-label="Search" className="text-gray-600 hover:text-[#BC9750]">
-                            <Search size={20} />
+                        <button
+                            onClick={handleSearchToggle}
+                            aria-label="Search"
+                            className="text-gray-600 hover:text-[#BC9750] transition-colors"
+                        >
+                            {isSearchOpen ? <X size={20} /> : <Search size={20} />}
                         </button>
                     </nav>
 
@@ -372,6 +465,169 @@ export function Header() {
                         </Link>
                     </div>
                 </div>
+
+                {/* Search Dialog */}
+                <AnimatePresence>
+                    {isSearchOpen && (
+                        <>
+                            {/* Backdrop Overlay */}
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="fixed inset-0 bg-black/50 z-60"
+                                onClick={() => {
+                                    setIsSearchOpen(false);
+                                    setSearchQuery("");
+                                    setSearchResults([]);
+                                    setShowAllResults(false);
+                                }}
+                            />
+
+                            {/* Search Dialog Box */}
+                            <motion.div
+                                ref={searchDialogRef}
+                                initial={{ opacity: 0, scale: 0.95, y: -20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.95, y: -20 }}
+                                transition={{ duration: 0.3, ease: "easeOut" }}
+                                className="fixed top-20 left-1/2 -translate-x-1/2 w-full max-w-4xl bg-white shadow-2xl z-70 mx-4"
+                            >
+                                <div className="px-8 py-6">
+                                    {/* Search Input */}
+                                    <div className="relative">
+                                        <input
+                                            ref={searchInputRef}
+                                            type="text"
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            placeholder="Search Resources..."
+                                            className="w-full px-6 py-4 text-lg border-2 border-[#BC9750] focus:outline-none focus:border-[#726857] transition-colors arial-nova"
+                                        />
+                                        <Search
+                                            className="absolute right-6 top-1/2 -translate-y-1/2 text-[#BC9750]"
+                                            size={24}
+                                        />
+                                    </div>
+
+                                    {/* Search Results */}
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 0.1 }}
+                                        className="mt-6 max-h-[500px] overflow-y-auto pr-2 
+                                            [&::-webkit-scrollbar]:w-2
+                                            [&::-webkit-scrollbar-track]:bg-gray-100
+                                            [&::-webkit-scrollbar-thumb]:bg-[#BC9750]
+                                            [&::-webkit-scrollbar-thumb]:rounded-full
+                                            [&::-webkit-scrollbar-thumb]:hover:bg-[#726857]"
+                                    >
+                                        {isSearching ? (
+                                            <div className="flex justify-center items-center py-8">
+                                                <Loader2 className="h-8 w-8 animate-spin text-[#BC9750]" />
+                                            </div>
+                                        ) : searchQuery && searchResults.length > 0 ? (
+                                            <div className="space-y-4">
+                                                <p className="text-sm text-[#4D4946] arial-nova">
+                                                    Found {searchResults.length} result{searchResults.length !== 1 ? 's' : ''}
+                                                </p>
+
+                                                {/* Results List */}
+                                                <AnimatePresence mode="sync">
+                                                    {displayedResults.map((post, index) => (
+                                                        <motion.div
+                                                            key={post.id}
+                                                            initial={{ opacity: 0, x: -15 }}
+                                                            animate={{ opacity: 1, x: 0 }}
+                                                            exit={{ opacity: 0 }} 
+                                                            transition={{
+                                                                duration: showAllResults ? 0.25 : 0.05, 
+                                                                delay: showAllResults ? index * 0.05 : 0 
+                                                            }}
+                                                        >
+
+                                                            <Link
+                                                                href={`/blog/${post.id}`}
+                                                                onClick={handleSearchResultClick}
+                                                                className="block group"
+                                                            >
+                                                                <div className="flex gap-4 p-4 border border-gray-200 hover:border-[#BC9750] hover:shadow-md transition-all">
+                                                                    {post.coverImage && (
+                                                                        <div className="relative w-32 h-24 shrink-0 overflow-hidden">
+                                                                            <Image
+                                                                                src={post.coverImage}
+                                                                                alt={post.title}
+                                                                                fill
+                                                                                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                                                            />
+                                                                        </div>
+                                                                    )}
+                                                                    <div className="flex-1">
+                                                                        <h4 className="arial-nova text-base font-medium text-[#041122] group-hover:text-[#BC9750] transition-colors mb-2">
+                                                                            {post.title}
+                                                                        </h4>
+                                                                        {post.excerpt && (
+                                                                            <p className="text-sm text-[#4D4946] line-clamp-2 mb-2">
+                                                                                {post.excerpt}
+                                                                            </p>
+                                                                        )}
+                                                                        <span className="text-xs text-[#BC9750]">
+                                                                            {formatDate(post.wpCreatedAt)}
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </Link>
+                                                        </motion.div>
+                                                    ))}
+                                                </AnimatePresence>
+
+                                                {/* See All / Show Less Button */}
+                                                {hasMoreResults && (
+                                                    <motion.div
+                                                        initial={{ opacity: 0, y: 10 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        transition={{ delay: 0.2 }}
+                                                        className="flex justify-center pt-4"
+                                                    >
+                                                        <button
+                                                            onClick={() => setShowAllResults(!showAllResults)}
+                                                            className="flex items-center gap-2 px-6 py-3 bg-[#BC9750] text-white arial-nova font-medium hover:bg-[#726857] transition-all shadow-md hover:shadow-lg"
+                                                        >
+                                                            {showAllResults ? (
+                                                                <>
+                                                                    <span>Show Less</span>
+                                                                    <ChevronUp size={18} />
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <span>See All ({searchResults.length} results)</span>
+                                                                    <ChevronDown size={18} />
+                                                                </>
+                                                            )}
+                                                        </button>
+                                                    </motion.div>
+                                                )}
+                                            </div>
+                                        ) : searchQuery && searchResults.length === 0 ? (
+                                            <div className="text-center py-8">
+                                                <p className="text-[#4D4946] arial-nova">
+                                                    No results found for &quot;{searchQuery}&quot;
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <div className="text-center py-8">
+                                                <p className="text-[#4D4946] arial-nova">
+                                                    Enter keywords to search for Resources
+                                                </p>
+                                            </div>
+                                        )}
+                                    </motion.div>
+                                </div>
+                            </motion.div>
+                        </>
+                    )}
+                </AnimatePresence>
             </div>
         </motion.header>
     );

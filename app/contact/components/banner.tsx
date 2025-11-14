@@ -23,7 +23,7 @@ export default function Banner() {
             {/* Hero Content */}
             <div className="relative z-10 flex flex-col items-center text-center px-4">
                 <h1 className="trajan-pro text-4xl md:text-5xl lg:text-5xl lg:max-w-3xl font-medium text-white ">
-                    Let&apos;s Build Your International Tax Strategy
+                    Let&apos;s Build Your <span className='text-[#BC9750]'>International Tax Strategy</span>
                 </h1>
                 
                 <p className='arial-nova lg:max-w-2xl font-medium text-md md:text-lg lg:text-xl text-white mt-16'>

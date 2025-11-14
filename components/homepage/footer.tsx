@@ -92,7 +92,7 @@ export const FooterSection = () => {
                   <ul className="arial-nova space-y-1">
                     {[
                       { name: "About us", href: "/about" },
-                      { name: "Our Team", href: "/ourClient" },
+                      { name: "Resources", href: "/blog" },
                       { name: "Contact Us", href: "/contact" },
                     ].map((item) => (
                       <li key={item.name}>
@@ -179,8 +179,8 @@ export const FooterSection = () => {
               <div className="arial-nova flex justify-between items-center pt-9 border-none">
                 {/* (Giữ nguyên thẻ <a> vì đây là link placeholder #) */}
                 <a
-                  href="#"
-                  onClick={(e) => handleLinkClick(e, "#")}
+                  href="/privacy"
+                  onClick={(e) => handleLinkClick(e, "/privacy")}
                   className="text-xs text-white hover:text-[#BC9750] transition-colors"
                 >
                   Privacy Policy
