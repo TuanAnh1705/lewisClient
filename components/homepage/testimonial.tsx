@@ -83,17 +83,20 @@ export default function TestimonialsSection() {
     }
   };
 
-  // Auto scroll to selected image on mobile
-  useEffect(() => {
-    if (width < 768 && imageRefs.current[selectedId]) {
-      imageRefs.current[selectedId]?.scrollIntoView({
+  // Handle image click - only scroll when user manually clicks
+  const handleImageClick = (id: number) => {
+    setSelectedId(id);
+    // Only scroll to image on mobile when user manually clicks
+    if (width < 768 && imageRefs.current[id]) {
+      imageRefs.current[id]?.scrollIntoView({
         behavior: 'smooth',
         block: 'nearest',
         inline: 'center',
       });
     }
-  }, [selectedId, width]);
+  };
 
+  // Auto-rotate testimonials every 8 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setSelectedId((prev) => {
@@ -113,7 +116,7 @@ export default function TestimonialsSection() {
           <h2 className="trajan-pro text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-gray-900 mb-3 md:mb-4">
             What Our Clients Are Saying
           </h2>
-          <p className="arial-nova font-medium text-sm sm:text-base md:text-lg text-gray-600 max-w-4xl mx-auto px-4">
+          <p className="arial-nova font-medium text-sm sm:text-base md:text-lg text-gray-600 max-w-5xl mx-auto px-4">
             We are proud to serve a discerning clientele of entrepreneurs and
             executives who demand excellence. Our 98% client retention rate is a
             testament to the trust they place in our strategic counsel and the
@@ -135,7 +138,7 @@ export default function TestimonialsSection() {
                   ref={(el) => {
                     imageRefs.current[testimonial.id] = el;
                   }}
-                  onClick={() => setSelectedId(testimonial.id)}
+                  onClick={() => handleImageClick(testimonial.id)}
                   className="relative overflow-hidden rounded-none focus:outline-none shrink-0 snap-center lg:snap-align-none"
                   animate={{
                     height: dims.height,

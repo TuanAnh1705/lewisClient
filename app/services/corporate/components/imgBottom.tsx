@@ -22,11 +22,11 @@ export default function ImgBottom() {
                 {/* Hero Content */}
                 {/* THAY ĐỔI Ở ĐÂY: Thêm 'flex flex-col items-center' */}
                 <div className="relative z-10 flex flex-col items-center text-center px-4">
-                    <h1 className="trajan-pro text-2xl md:text-5xl lg:text-6xl lg:max-w-5xl font-medium text-white">
+                    <h1 className="trajan-pro text-2xl md:text-5xl lg:text-6xl lg:max-w-7xl font-medium text-white">
                         Build a Tax Framework for Growth
                     </h1>
 
-                    <p className="arial-nova font-light text-white text-sm md:text-xl md:max-w-2xl">
+                    <p className="arial-nova font-light text-white text-sm md:text-xl md:max-w-3xl">
                         Position your enterprise for sustainable international success. Let&apos;s discuss a corporate tax strategy that supports your vision.
                     </p>
 
