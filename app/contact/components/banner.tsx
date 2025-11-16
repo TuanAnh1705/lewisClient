@@ -26,7 +26,7 @@ export default function Banner() {
                     Let&apos;s Build Your <span className='text-[#BC9750]'>International Tax Strategy</span>
                 </h1>
                 
-                <p className='arial-nova lg:max-w-2xl font-medium text-md md:text-lg lg:text-xl text-white mt-16'>
+                <p className='arial-nova lg:max-w-2xl font-medium text-sm md:text-lg lg:text-xl text-white mt-5 md:mt-16'>
                     To begin the conversation, please complete the form below. This allows us to understand your needs before our initial call. Our team will review your submission and contact you within one business day to schedule your confidential consultation.
                 </p>
             </div>

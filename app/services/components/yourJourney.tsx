@@ -122,7 +122,7 @@ export default function YourJourney() {
                     {/* Left Column - Sticky Title (2/5) */}
                     <div className="relative h-full lg:col-span-2">
                         <div className="lg:sticky lg:top-24">
-                            <h2 className="text-4xl md:text-4xl lg:text-5xl font-medium text-[#041122] trajan-pro leading-tight">
+                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium text-[#041122] trajan-pro leading-tight">
                                 Your Journey
                                 to Financial
                                 Clarity

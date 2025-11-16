@@ -22,17 +22,17 @@ export default function ImgBottom() {
                 {/* Hero Content */}
                 {/* THAY ĐỔI Ở ĐÂY: Thêm 'flex flex-col items-center' */}
                 <div className="relative z-10 flex flex-col items-center text-center px-4">
-                    <h1 className="trajan-pro text-4xl md:text-5xl lg:text-6xl lg:max-w-7xl font-medium text-white ">
+                    <h1 className="trajan-pro text-2xl md:text-5xl lg:text-6xl lg:max-w-5xl font-medium text-white">
                         Build a Tax Framework for Growth
                     </h1>
 
-                    <p className="arial-nova font-light text-white md:text-xl md:max-w-2xl">
+                    <p className="arial-nova font-light text-white text-sm md:text-xl md:max-w-2xl">
                         Position your enterprise for sustainable international success. Let&apos;s discuss a corporate tax strategy that supports your vision.
                     </p>
 
                     {/* THAY ĐỔI Ở ĐÂY: Thêm 'mt-6' */}
                     <Link href="/contact">
-                        <button className="gotham px-4 md:mt-10 py-2.5 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none shadow-md hover:shadow-lg md:text-xs">
+                        <button className="gotham px-4 mt-5 md:mt-10 py-2.5 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none shadow-md hover:shadow-lg text-xs md:text-xs">
                             SCHEDULE A CORPORATE CONSULTATION
                         </button>
 

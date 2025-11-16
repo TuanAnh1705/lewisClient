@@ -22,16 +22,16 @@ export default function ImgBottom() {
                 {/* Hero Content */}
                 {/* THAY ĐỔI Ở ĐÂY: Thêm 'flex flex-col items-center' */}
                 <div className="relative z-10 flex flex-col items-center text-center px-4">
-                    <h1 className="trajan-pro text-4xl md:text-5xl lg:text-5xl lg:max-w-6xl font-medium text-white ">
+                    <h1 className="trajan-pro text-3xl md:text-5xl lg:text-5xl lg:max-w-6xl font-medium text-white ">
                         Could You Be Our Next Success Story?
                     </h1>
-                    <p className='arial-nova text-xs md:text-md lg:text-lg text-white font-medium lg:max-w-2xl md:mt-5'>
+                    <p className='arial-nova text-sm md:text-md lg:text-lg text-white font-medium lg:max-w-2xl mt-3 md:mt-5'>
                         If you are a professional or entrepreneur facing complex cross-border tax challenges, you are in the right place.
                     </p>
 
                     {/* THAY ĐỔI Ở ĐÂY: Thêm 'mt-6' */}
                     <Link href="/contact">
-                        <button className="gotham px-4 md:mt-10 py-2.5 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none shadow-md hover:shadow-lg md:text-xs">
+                        <button className="gotham px-4 mt-5 md:mt-10 py-2.5 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none shadow-md hover:shadow-lg text-xs md:text-xs">
                             SEE IF WE ARE A GOOD FIT
                         </button>
                     </Link>

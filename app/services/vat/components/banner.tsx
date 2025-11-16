@@ -26,7 +26,7 @@ export default function Banner() {
                     </h1>
                     
                     {/* THAY ĐỔI Ở ĐÂY: Thêm 'mt-6' */}
-                    <p className='arial-nova lg:max-w-3xl font-medium text-md md:text-lg lg:text-xl text-white mt-12'>
+                    <p className='arial-nova lg:max-w-3xl font-medium text-md md:text-lg lg:text-xl text-white mt-5 md:mt-12'>
                        Navigating the complexities of UK-EU VAT for seamless trade and compliance.
                     </p>
                 </div>

@@ -21,12 +21,12 @@ export default function Banner() {
                 {/* Hero Content */}
                 {/* THAY ĐỔI Ở ĐÂY: Thêm 'flex flex-col items-center' */}
                 <div className="relative z-10 flex flex-col items-center text-center px-4">
-                    <h1 className="trajan-pro text-4xl md:text-5xl lg:text-5xl lg:max-w-3xl font-medium text-white ">
+                    <h1 className="trajan-pro text-2xl md:text-5xl lg:text-5xl lg:max-w-3xl font-medium text-white ">
                         <span className='text-[#BC9750]'>Bespoke </span>Tax Strategies for International Success
                     </h1>
                     
                     {/* THAY ĐỔI Ở ĐÂY: Thêm 'mt-6' */}
-                    <p className='arial-nova lg:max-w-3xl font-medium text-md md:text-lg lg:text-xl text-white mt-16'>
+                    <p className='arial-nova lg:max-w-3xl font-medium text-xs md:text-lg lg:text-xl text-white mt-5 md:mt-16'>
                         A holistic approach to your financial picture. We offer three core strategic services designed to address the most critical cross-border financial challenges for our clients.
                     </p>
                 </div>

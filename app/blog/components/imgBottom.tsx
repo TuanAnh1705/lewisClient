@@ -69,7 +69,7 @@ export const NewsletterSection = () => {
         {/* Content */}
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           {/* Heading */}
-          <h2 className="trajan-pro text-3xl md:text-5xl lg:text-5xl font-medium text-white mb-8 md:mb-12 leading-tight">
+          <h2 className="trajan-pro text-2xl md:text-5xl lg:text-5xl font-medium text-white mb-8 md:mb-12 leading-tight">
             GET EXPERT INSIGHTS
             <br />
             DELIVERED TO YOUR INBOX

@@ -40,17 +40,17 @@ export default function RootLayout({
         className={cn(
           geistSans.variable,
           geistMono.variable,
-          "antialiased min-h-screen bg-background text-foreground font-body"
+          "antialiased min-h-screen bg-background text-foreground font-body overflow-x-hidden"
         )}
       >
-        <PageLoader /> 
+        <PageLoader />
 
         {/* 2. Nội dung trang nằm song song bên dưới */}
-        <Header/>
+        <Header />
         <main className="relative z-10">
           {children}
         </main>
-        <FooterSection/>
+        <FooterSection />
       </body>
     </html>
   );

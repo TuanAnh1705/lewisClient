@@ -26,13 +26,13 @@ export default function ImgBottom() {
                         Secure Your Financial Future
                     </h1>
 
-                    <p className="arial-nova font-light text-white md:text-xl md:max-w-2xl">
+                    <p className="arial-nova font-light text-white text-sm md:text-xl md:max-w-2xl">
                         Take the first step towards a more secure and tax-efficient international life. Contact us for a confidential consultation.
                     </p>
 
                     {/* THAY ĐỔI Ở ĐÂY: Thêm 'mt-6' */}
                     <Link href="/contact">
-                        <button className="gotham px-4 md:mt-10 py-2.5 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none shadow-md hover:shadow-lg md:text-xs">
+                        <button className="gotham px-4 mt-5 md:mt-10 py-2.5 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none shadow-md hover:shadow-lg text-xs md:text-xs">
                             SCHEDULE A CONFIDENTIAL CONSULTATION
                         </button>
 

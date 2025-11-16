@@ -94,8 +94,15 @@ export default function BlogDetailPage({
         const allPostsRes = await api.get("/api/post");
         const allPosts = allPostsRes.data.posts || [];
 
+        // 🔥 FIX: Sắp xếp theo wpCreatedAt giảm dần (mới nhất trước)
+        const sortedPosts = [...allPosts].sort((a: BlogPost, b: BlogPost) => {
+          const dateA = a.wpCreatedAt ? new Date(a.wpCreatedAt).getTime() : 0;
+          const dateB = b.wpCreatedAt ? new Date(b.wpCreatedAt).getTime() : 0;
+          return dateB - dateA; // Giảm dần
+        });
+
         // Get 3 latest posts (exclude current)
-        const latest = allPosts
+        const latest = sortedPosts
           .filter((p: BlogPost) => p.id !== postData.id)
           .slice(0, 3);
         setLatestPosts(latest);
@@ -322,7 +329,7 @@ export default function BlogDetailPage({
   return (
     <div className="w-full bg-white">
       {/* Banner Section */}
-      <div className="relative w-full h-[400px] md:h-[500px] mb-12">
+      <div className="relative w-full h-[300px] md:h-[500px] mb-8 md:mb-12">
         {post.coverImage && (
           <Image src={post.coverImage} alt={post.title} fill className="object-cover" priority />
         )}
@@ -330,7 +337,7 @@ export default function BlogDetailPage({
 
         <div className="absolute inset-0 flex items-center justify-center px-6 md:px-12 lg:px-20">
           <div className="max-w-4xl text-center">
-            <h1 className="trajan-pro text-3xl md:text-4xl lg:text-5xl font-medium text-white leading-tight">
+            <h1 className="trajan-pro text-2xl md:text-4xl lg:text-5xl font-medium text-white leading-tight">
               {post.title}
             </h1>
           </div>
@@ -339,25 +346,129 @@ export default function BlogDetailPage({
 
       {/* Content Section */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* Main Content */}
-          <article className="lg:col-span-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+          {/* Sidebar - Hiển thị đầu tiên trên mobile */}
+          <aside className="lg:col-span-4 lg:order-2 space-y-6 lg:space-y-10">
+            {/* Search Box */}
+            <div className="bg-[#F2F0EC] p-4 md:p-6">
+              <h3 className="trajan-pro text-lg md:text-xl font-medium text-[#041122] mb-3 md:mb-4 pb-2 md:pb-3">
+                Search in Article
+              </h3>
+
+              <div className="relative">
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Enter keyword..."
+                  className="w-full px-4 py-3 pr-20 focus:outline-none focus:border-[#726857] transition-colors arial-nova text-sm"
+                />
+
+                {searchTerm && (
+                  <button
+                    onClick={clearSearch}
+                    className="absolute right-12 top-1/2 -translate-y-1/2 text-[#726857] hover:text-[#BC9750] transition-colors"
+                    title="Clear search"
+                  >
+                    <X size={16} />
+                  </button>
+                )}
+
+                <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-[#BC9750]" size={18} />
+              </div>
+
+              {/* Match count */}
+              {debouncedSearch && (
+                <div className="mt-3 text-xs arial-nova text-[#4D4946]">
+                  {matchCount > 0 ? (
+                    <span className="text-[#BC9750] font-medium">
+                      Found {matchCount} match{matchCount !== 1 ? "es" : ""}
+                    </span>
+                  ) : (
+                    <span className="text-[#726857]">No matches found</span>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Latest Posts */}
+            {latestPosts.length > 0 && (
+              <div className="bg-[#F2F0EC] p-4 md:p-6">
+                <h3 className="trajan-pro text-lg md:text-xl font-medium text-[#041122] mb-4 md:mb-6 pb-2 md:pb-3">
+                  Latest Posts
+                </h3>
+
+                <div className="space-y-4 md:space-y-6">
+                  {latestPosts.map((latestPost) => (
+                    <Link key={latestPost.id} href={`/blog/${latestPost.id}`} className="group block">
+                      <div className="flex gap-3 md:gap-4">
+                        {latestPost.coverImage && (
+                          <div className="relative w-20 h-16 md:w-24 md:h-20 shrink-0 overflow-hidden">
+                            <Image
+                              src={latestPost.coverImage}
+                              alt={latestPost.title}
+                              fill
+                              className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                        )}
+
+                        <div className="flex-1">
+                          <h4 className="arial-nova text-sm font-medium text-[#041122] group-hover:text-[#BC9750] transition-colors line-clamp-2 mb-1 md:mb-2">
+                            {latestPost.title}
+                          </h4>
+                          <span className="text-xs text-[#4D4946]">{formatDate(latestPost.wpCreatedAt)}</span>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Categories */}
+            {allCategories.length > 0 && (
+              <div className="bg-[#F2F0EC] p-4 md:p-6">
+                <h3 className="trajan-pro text-lg md:text-xl font-medium text-[#041122] mb-3 md:mb-4 pb-2 md:pb-3">
+                  Categories
+                </h3>
+
+                <div className="space-y-2">
+                  {allCategories.map((cat) => (
+                    <div
+                      key={cat.id}
+                      className={`arial-nova px-3 md:px-4 py-2 md:py-3 text-base md:text-lg transition-all cursor-default ${
+                        isActiveCategory(cat.name)
+                          ? "bg-white text-[#BC9750] shadow-sm font-medium"
+                          : "bg-transparent text-[#041122]"
+                      }`}
+                    >
+                      {cat.name}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </aside>
+
+          {/* Main Content - Hiển thị sau sidebar trên mobile */}
+          <article className="lg:col-span-8 lg:order-1">
             <div
               ref={contentRef}
               className="arial-nova prose prose-lg max-w-none
-                [&_h1]:text-5xl! [&_h1]:font-bold! [&_h1]:mb-8! [&_h1]:mt-12! [&_h1]:text-[#041122]!
-                [&_h2]:text-4xl! [&_h2]:font-bold! [&_h2]:mb-7! [&_h2]:mt-10! [&_h2]:text-[#041122]!
-                [&_h3]:text-3xl! [&_h3]:font-semibold! [&_h3]:mb-6! [&_h3]:mt-8! [&_h3]:text-[#041122]!
-                [&_h4]:text-2xl! [&_h4]:font-semibold! [&_h4]:mb-5! [&_h4]:text-[#041122]!
-                [&_p]:text-xl! [&_p]:text-[#4D4946]! [&_p]:leading-normal! [&_p]:mb-4!
-                [&_img]:rounded-none! [&_img]:shadow-md! [&_img]:my-10!
+                [&_h1]:text-3xl! md:[&_h1]:text-5xl! [&_h1]:font-bold! [&_h1]:mb-6! md:[&_h1]:mb-8! [&_h1]:mt-8! md:[&_h1]:mt-12! [&_h1]:text-[#041122]!
+                [&_h2]:text-2xl! md:[&_h2]:text-4xl! [&_h2]:font-bold! [&_h2]:mb-5! md:[&_h2]:mb-7! [&_h2]:mt-6! md:[&_h2]:mt-10! [&_h2]:text-[#041122]!
+                [&_h3]:text-xl! md:[&_h3]:text-3xl! [&_h3]:font-semibold! [&_h3]:mb-4! md:[&_h3]:mb-6! [&_h3]:mt-5! md:[&_h3]:mt-8! [&_h3]:text-[#041122]!
+                [&_h4]:text-lg! md:[&_h4]:text-2xl! [&_h4]:font-semibold! [&_h4]:mb-3! md:[&_h4]:mb-5! [&_h4]:text-[#041122]!
+                [&_p]:text-base! md:[&_p]:text-xl! [&_p]:text-[#4D4946]! [&_p]:leading-relaxed! md:[&_p]:leading-normal! [&_p]:mb-4!
+                [&_img]:rounded-none! [&_img]:shadow-md! [&_img]:my-6! md:[&_img]:my-10!
                 [&_a]:text-[#BC9750]! [&_a]:no-underline! hover:[&_a]:underline!
                 [&_strong]:text-[#041122]! [&_strong]:font-semibold!
-                [&_ul]:list-disc! [&_ul]:text-xl! [&_ul]:list-outside! [&_ul]:ml-6! [&_ul]:my-4! [&_ul]:space-y-1!
-                [&_ol]:list-decimal! [&_ol]:text-xl! [&_ol]:list-outside! [&_ol]:ml-6! [&_ol]:my-6! [&_ol]:space-y-1!
-                [&_li]:text-[#4D4946]! [&_li]:leading-normal!
-                [&_div]:text-xl! [&_div]:text-[#4D4946]! [&_div]:leading-normal!
-                [&_span]:text-xl! [&_span]:text-[#4D4946]!
+                [&_ul]:list-disc! [&_ul]:text-base! md:[&_ul]:text-xl! [&_ul]:list-outside! [&_ul]:ml-5! md:[&_ul]:ml-6! [&_ul]:my-3! md:[&_ul]:my-4! [&_ul]:space-y-1!
+                [&_ol]:list-decimal! [&_ol]:text-base! md:[&_ol]:text-xl! [&_ol]:list-outside! [&_ol]:ml-5! md:[&_ol]:ml-6! [&_ol]:my-4! md:[&_ol]:my-6! [&_ol]:space-y-1!
+                [&_li]:text-[#4D4946]! [&_li]:leading-relaxed! md:[&_li]:leading-normal!
+                [&_div]:text-base! md:[&_div]:text-xl! [&_div]:text-[#4D4946]! [&_div]:leading-relaxed! md:[&_div]:leading-normal!
+                [&_span]:text-base! md:[&_span]:text-xl! [&_span]:text-[#4D4946]!
               "
               dangerouslySetInnerHTML={{
                 __html: post.contentHtml || "",
@@ -365,8 +476,8 @@ export default function BlogDetailPage({
             />
 
             {/* Social Share Section */}
-            <div className="mt-12 pt-8 border-t border-[#726857]">
-              <div className="flex items-center gap-4">
+            <div className="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-[#726857]">
+              <div className="flex items-center gap-3 md:gap-4">
                 {/* Copy Link */}
                 <button
                   onClick={() => setShowLinkDialog(true)}
@@ -405,108 +516,6 @@ export default function BlogDetailPage({
               </div>
             </div>
           </article>
-          {/* Sidebar */}
-          <aside className="lg:col-span-4 space-y-10">
-            {/* Search Box */}
-            <div className="bg-[#F2F0EC] p-6">
-              <h3 className="trajan-pro text-xl font-medium text-[#041122] mb-4 pb-3 ">
-                Search in Article
-              </h3>
-
-              <div className="relative">
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Enter keyword..."
-                  className="w-full px-4 py-3 pr-20  focus:outline-none focus:border-[#726857] transition-colors arial-nova text-sm"
-                />
-
-                {searchTerm && (
-                  <button
-                    onClick={clearSearch}
-                    className="absolute right-12 top-1/2 -translate-y-1/2 text-[#726857] hover:text-[#BC9750] transition-colors"
-                    title="Clear search"
-                  >
-                    <X size={16} />
-                  </button>
-                )}
-
-                <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-[#BC9750]" size={18} />
-              </div>
-
-              {/* Match count */}
-              {debouncedSearch && (
-                <div className="mt-3 text-xs arial-nova text-[#4D4946]">
-                  {matchCount > 0 ? (
-                    <span className="text-[#BC9750] font-medium">
-                      Found {matchCount} match{matchCount !== 1 ? "es" : ""}
-                    </span>
-                  ) : (
-                    <span className="text-[#726857]">No matches found</span>
-                  )}
-                </div>
-              )}
-            </div>
-
-            {/* Latest Posts */}
-            {latestPosts.length > 0 && (
-              <div className="bg-[#F2F0EC] p-6">
-                <h3 className="trajan-pro text-xl font-medium text-[#041122] mb-6 pb-3">
-                  Latest Posts
-                </h3>
-
-                <div className="space-y-6">
-                  {latestPosts.map((latestPost) => (
-                    <Link key={latestPost.id} href={`/blog/${latestPost.id}`} className="group block">
-                      <div className="flex gap-4">
-                        {latestPost.coverImage && (
-                          <div className="relative w-24 h-20 shrink-0 overflow-hidden">
-                            <Image
-                              src={latestPost.coverImage}
-                              alt={latestPost.title}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                          </div>
-                        )}
-
-                        <div className="flex-1">
-                          <h4 className="arial-nova text-sm font-medium text-[#041122] group-hover:text-[#BC9750] transition-colors line-clamp-2 mb-2">
-                            {latestPost.title}
-                          </h4>
-                          <span className="text-xs text-[#4D4946]">{formatDate(latestPost.wpCreatedAt)}</span>
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Categories */}
-            {allCategories.length > 0 && (
-              <div className="bg-[#F2F0EC] p-6">
-                <h3 className="trajan-pro text-xl font-medium text-[#041122] mb-4 pb-3">
-                  Categories
-                </h3>
-
-                <div className="space-y-2">
-                  {allCategories.map((cat) => (
-                    <div
-                      key={cat.id}
-                      className={`arial-nova px-4 py-3 text-lg transition-all cursor-default ${isActiveCategory(cat.name)
-                          ? "bg-white text-[#BC9750] shadow-sm font-medium"
-                          : "bg-transparent text-[#041122]"
-                        }`}
-                    >
-                      {cat.name}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </aside>
         </div>
       </div>
 

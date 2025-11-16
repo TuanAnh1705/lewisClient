@@ -26,13 +26,13 @@ export default function ImgBottom() {
                         Trade with VAT Confidence
                     </h1>
 
-                    <p className="arial-nova font-light text-white md:text-xl md:max-w-2xl">
+                    <p className="arial-nova font-light text-white text-sm md:text-xl md:max-w-2xl">
                         Don&apos;t let VAT complexity become a barrier to growth. Contact us to ensure your cross-border operations are efficient and compliant.
                     </p>
 
                     {/* THAY ĐỔI Ở ĐÂY: Thêm 'mt-6' */}
                     <Link href="/contact">
-                        <button className="gotham px-4 md:mt-10 py-2.5 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none shadow-md hover:shadow-lg md:text-xs">
+                        <button className="gotham px-4 mt-5 md:mt-10 py-2.5 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none shadow-md hover:shadow-lg text-xs md:text-xs">
                             DISCUSS YOUR VAT STRATEGY
                         </button>
                     </Link>
