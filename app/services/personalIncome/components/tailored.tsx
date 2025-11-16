@@ -123,7 +123,8 @@ export default function TailoredSection() {
 
                 {/* ✅ Wrapper để căn giữa toàn bộ grid */}
                 <div className="flex justify-center">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 max-w-6xl w-full">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 max-w-6xl w-full mx-auto justify-items-center">
+
                         {/* Column 1: Deep Dive Analysis */}
                         <div className="text-center md:text-start space-y-4 md:space-y-6">
                             <div className="flex justify-center md:justify-start mb-4 md:mb-8">

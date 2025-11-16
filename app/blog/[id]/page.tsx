@@ -347,8 +347,8 @@ export default function BlogDetailPage({
       {/* Content Section */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-          {/* Sidebar - Hiển thị đầu tiên trên mobile */}
-          <aside className="lg:col-span-4 lg:order-2 space-y-6 lg:space-y-10">
+          {/* Sidebar - Search Box + Latest & Categories (Desktop only) */}
+          <aside className="lg:col-span-4 lg:order-2 order-1 space-y-6 lg:space-y-10">
             {/* Search Box */}
             <div className="bg-[#F2F0EC] p-4 md:p-6">
               <h3 className="trajan-pro text-lg md:text-xl font-medium text-[#041122] mb-3 md:mb-4 pb-2 md:pb-3">
@@ -391,6 +391,133 @@ export default function BlogDetailPage({
               )}
             </div>
 
+            {/* Latest Posts - Desktop only */}
+            {latestPosts.length > 0 && (
+              <div className="hidden lg:block bg-[#F2F0EC] p-4 md:p-6">
+                <h3 className="trajan-pro text-lg md:text-xl font-medium text-[#041122] mb-4 md:mb-6 pb-2 md:pb-3">
+                  Latest Posts
+                </h3>
+
+                <div className="space-y-4 md:space-y-6">
+                  {latestPosts.map((latestPost) => (
+                    <Link key={latestPost.id} href={`/blog/${latestPost.id}`} className="group block">
+                      <div className="flex gap-3 md:gap-4">
+                        {latestPost.coverImage && (
+                          <div className="relative w-20 h-16 md:w-24 md:h-20 shrink-0 overflow-hidden">
+                            <Image
+                              src={latestPost.coverImage}
+                              alt={latestPost.title}
+                              fill
+                              className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                        )}
+
+                        <div className="flex-1">
+                          <h4 className="arial-nova text-sm font-medium text-[#041122] group-hover:text-[#BC9750] transition-colors line-clamp-2 mb-1 md:mb-2">
+                            {latestPost.title}
+                          </h4>
+                          <span className="text-xs text-[#4D4946]">{formatDate(latestPost.wpCreatedAt)}</span>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Categories - Desktop only */}
+            {allCategories.length > 0 && (
+              <div className="hidden lg:block bg-[#F2F0EC] p-4 md:p-6">
+                <h3 className="trajan-pro text-lg md:text-xl font-medium text-[#041122] mb-3 md:mb-4 pb-2 md:pb-3">
+                  Categories
+                </h3>
+
+                <div className="space-y-2">
+                  {allCategories.map((cat) => (
+                    <div
+                      key={cat.id}
+                      className={`arial-nova px-3 md:px-4 py-2 md:py-3 text-base md:text-lg transition-all cursor-default ${isActiveCategory(cat.name)
+                          ? "bg-white text-[#BC9750] shadow-sm font-medium"
+                          : "bg-transparent text-[#041122]"
+                        }`}
+                    >
+                      {cat.name}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </aside>
+
+          {/* Main Content */}
+          <article className="lg:col-span-8 lg:order-1 order-2">
+            <div
+              ref={contentRef}
+              className="arial-nova prose prose-lg max-w-none
+                [&_h1]:text-3xl! md:[&_h1]:text-5xl! [&_h1]:font-bold! [&_h1]:mb-6! md:[&_h1]:mb-8! [&_h1]:mt-8! md:[&_h1]:mt-12! [&_h1]:text-[#041122]!
+                [&_h2]:text-2xl! md:[&_h2]:text-4xl! [&_h2]:font-bold! [&_h2]:mb-5! md:[&_h2]:mb-7! [&_h2]:mt-6! md:[&_h2]:mt-10! [&_h2]:text-[#041122]!
+                [&_h3]:text-xl! md:[&_h3]:text-3xl! [&_h3]:font-semibold! [&_h3]:mb-4! md:[&_h3]:mb-6! [&_h3]:mt-5! md:[&_h3]:mt-8! [&_h3]:text-[#041122]!
+                [&_h4]:text-lg! md:[&_h4]:text-2xl! [&_h4]:font-semibold! [&_h4]:mb-3! md:[&_h4]:mb-5! [&_h4]:text-[#041122]!
+                [&_p]:text-base! md:[&_p]:text-xl! [&_p]:text-[#4D4946]! [&_p]:leading-relaxed! md:[&_p]:leading-normal! [&_p]:mb-4!
+                [&_img]:rounded-none! [&_img]:shadow-md! [&_img]:my-6! md:[&_img]:my-10!
+                [&_a]:text-[#BC9750]! [&_a]:no-underline! hover:[&_a]:underline!
+                [&_strong]:text-[#041122]! [&_strong]:font-semibold!
+                [&_ul]:list-disc! [&_ul]:text-base! md:[&_ul]:text-xl! [&_ul]:list-outside! [&_ul]:ml-5! md:[&_ul]:ml-6! [&_ul]:my-3! md:[&_ul]:my-4! [&_ul]:space-y-1!
+                [&_ol]:list-decimal! [&_ol]:text-base! md:[&_ol]:text-xl! [&_ol]:list-outside! [&_ol]:ml-5! md:[&_ol]:ml-6! [&_ol]:my-4! md:[&_ol]:my-6! [&_ol]:space-y-1!
+                [&_li]:text-[#4D4946]! [&_li]:leading-relaxed! md:[&_li]:leading-normal!
+                [&_div]:text-base! md:[&_div]:text-xl! [&_div]:text-[#4D4946]! [&_div]:leading-relaxed! md:[&_div]:leading-normal!
+                [&_span]:text-base! md:[&_span]:text-xl! [&_span]:text-[#4D4946]!
+              "
+              dangerouslySetInnerHTML={{
+                __html: post.contentHtml || "",
+              }}
+            />
+
+            {/* Social Share Section - Desktop only */}
+            <div className="hidden lg:block mt-8 md:mt-12 pt-6 md:pt-8 border-t border-[#726857]">
+              <div className="flex items-center gap-3 md:gap-4">
+                {/* Copy Link */}
+                <button
+                  onClick={() => setShowLinkDialog(true)}
+                  className="text-[#726857] hover:text-[#BC9750] transition-colors"
+                  title="Copy link"
+                >
+                  <Link2 size={20} />
+                </button>
+
+                {/* LinkedIn */}
+                <button
+                  onClick={shareOnLinkedIn}
+                  className="text-[#726857] hover:text-[#BC9750] transition-colors"
+                  title="Share on LinkedIn"
+                >
+                  <Linkedin size={20} />
+                </button>
+
+                {/* Instagram */}
+                <button
+                  onClick={shareOnInstagram}
+                  className="text-[#726857] hover:text-[#BC9750] transition-colors"
+                  title="Share on Instagram"
+                >
+                  <Instagram size={20} />
+                </button>
+
+                {/* WhatsApp */}
+                <button
+                  onClick={shareOnWhatsApp}
+                  className="text-[#726857] hover:text-[#BC9750] transition-colors"
+                  title="Share on WhatsApp"
+                >
+                  <MessageCircle size={20} />
+                </button>
+              </div>
+            </div>
+          </article>
+
+          {/* Latest Posts & Categories - Mobile only (order-3) */}
+          <div className="lg:hidden order-3 space-y-6">
             {/* Latest Posts */}
             {latestPosts.length > 0 && (
               <div className="bg-[#F2F0EC] p-4 md:p-6">
@@ -437,11 +564,10 @@ export default function BlogDetailPage({
                   {allCategories.map((cat) => (
                     <div
                       key={cat.id}
-                      className={`arial-nova px-3 md:px-4 py-2 md:py-3 text-base md:text-lg transition-all cursor-default ${
-                        isActiveCategory(cat.name)
+                      className={`arial-nova px-3 md:px-4 py-2 md:py-3 text-base md:text-lg transition-all cursor-default ${isActiveCategory(cat.name)
                           ? "bg-white text-[#BC9750] shadow-sm font-medium"
                           : "bg-transparent text-[#041122]"
-                      }`}
+                        }`}
                     >
                       {cat.name}
                     </div>
@@ -449,33 +575,10 @@ export default function BlogDetailPage({
                 </div>
               </div>
             )}
-          </aside>
+          </div>
 
-          {/* Main Content - Hiển thị sau sidebar trên mobile */}
-          <article className="lg:col-span-8 lg:order-1">
-            <div
-              ref={contentRef}
-              className="arial-nova prose prose-lg max-w-none
-                [&_h1]:text-3xl! md:[&_h1]:text-5xl! [&_h1]:font-bold! [&_h1]:mb-6! md:[&_h1]:mb-8! [&_h1]:mt-8! md:[&_h1]:mt-12! [&_h1]:text-[#041122]!
-                [&_h2]:text-2xl! md:[&_h2]:text-4xl! [&_h2]:font-bold! [&_h2]:mb-5! md:[&_h2]:mb-7! [&_h2]:mt-6! md:[&_h2]:mt-10! [&_h2]:text-[#041122]!
-                [&_h3]:text-xl! md:[&_h3]:text-3xl! [&_h3]:font-semibold! [&_h3]:mb-4! md:[&_h3]:mb-6! [&_h3]:mt-5! md:[&_h3]:mt-8! [&_h3]:text-[#041122]!
-                [&_h4]:text-lg! md:[&_h4]:text-2xl! [&_h4]:font-semibold! [&_h4]:mb-3! md:[&_h4]:mb-5! [&_h4]:text-[#041122]!
-                [&_p]:text-base! md:[&_p]:text-xl! [&_p]:text-[#4D4946]! [&_p]:leading-relaxed! md:[&_p]:leading-normal! [&_p]:mb-4!
-                [&_img]:rounded-none! [&_img]:shadow-md! [&_img]:my-6! md:[&_img]:my-10!
-                [&_a]:text-[#BC9750]! [&_a]:no-underline! hover:[&_a]:underline!
-                [&_strong]:text-[#041122]! [&_strong]:font-semibold!
-                [&_ul]:list-disc! [&_ul]:text-base! md:[&_ul]:text-xl! [&_ul]:list-outside! [&_ul]:ml-5! md:[&_ul]:ml-6! [&_ul]:my-3! md:[&_ul]:my-4! [&_ul]:space-y-1!
-                [&_ol]:list-decimal! [&_ol]:text-base! md:[&_ol]:text-xl! [&_ol]:list-outside! [&_ol]:ml-5! md:[&_ol]:ml-6! [&_ol]:my-4! md:[&_ol]:my-6! [&_ol]:space-y-1!
-                [&_li]:text-[#4D4946]! [&_li]:leading-relaxed! md:[&_li]:leading-normal!
-                [&_div]:text-base! md:[&_div]:text-xl! [&_div]:text-[#4D4946]! [&_div]:leading-relaxed! md:[&_div]:leading-normal!
-                [&_span]:text-base! md:[&_span]:text-xl! [&_span]:text-[#4D4946]!
-              "
-              dangerouslySetInnerHTML={{
-                __html: post.contentHtml || "",
-              }}
-            />
-
-            {/* Social Share Section */}
+          {/* Social Share Section - Mobile only (order-4) */}
+          <div className="lg:hidden lg:col-span-8 order-4">
             <div className="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-[#726857]">
               <div className="flex items-center gap-3 md:gap-4">
                 {/* Copy Link */}
@@ -515,7 +618,7 @@ export default function BlogDetailPage({
                 </button>
               </div>
             </div>
-          </article>
+          </div>
         </div>
       </div>
 

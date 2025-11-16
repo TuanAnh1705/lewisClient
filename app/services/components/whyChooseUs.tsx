@@ -62,13 +62,13 @@ const StatItem = ({ value, label, index, isNumber, targetNumber, hoveredIndex, o
             className="text-center cursor-pointer transition-all duration-300 px-4 sm:px-4"
             onMouseEnter={onHover}
             onMouseLeave={onLeave}
-            onTouchStart={onHover} 
+            onTouchStart={onHover}
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
         >
             <div className="flex flex-col items-center">
-                <div className="relative inline-block"> 
+                <div className="relative inline-block">
                     <motion.h3
                         className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium mb-3 md:mb-4 trajan-pro"
                         style={{
@@ -81,7 +81,7 @@ const StatItem = ({ value, label, index, isNumber, targetNumber, hoveredIndex, o
                     </motion.h3>
                 </div>
 
-                <div className='relative inline-block'> 
+                <div className='relative inline-block'>
                     <p className="arial-nova text-xs sm:text-sm md:text-base font-medium text-gray-600 pb-2">
                         {label}
                     </p>
@@ -89,7 +89,7 @@ const StatItem = ({ value, label, index, isNumber, targetNumber, hoveredIndex, o
                         className="absolute -bottom-1 left-1/2 h-px bg-[#726857]"
                         initial={{ width: 0, x: '-50%' }}
                         animate={{
-                            width: isActive ? '100%' : 0, 
+                            width: isActive ? '100%' : 0,
                             x: '-50%'
                         }}
                         transition={{
@@ -98,7 +98,7 @@ const StatItem = ({ value, label, index, isNumber, targetNumber, hoveredIndex, o
                         }}
                     />
                 </div>
-            </div> 
+            </div>
 
         </motion.div>
     );
@@ -138,11 +138,13 @@ export default function WhyChooseUs() {
                                 Many offer tax advice, but few provide a truly bespoke, strategic framework. We redefine international tax advisory to suit your lifestyle and global ambitions. We are your strategists, not just accountants. We deliver unbiased, expert counsel backed by the highest professional qualifications.
                             </p>
                         </div>
-                        <Link href="/contact">
-                            <button className="gotham px-6 md:px-4 py-3 md:py-2.5 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none hover:shadow-lg text-xs md:text-sm w-full sm:w-auto">
-                                CONTACT OUR EXPERTS
-                            </button>
-                        </Link>
+                        <div className="flex justify-center lg:justify-start">
+                            <Link href="/contact">
+                                <button className="gotham px-6 md:px-4 py-3 md:py-2.5 bg-[#BC9750] hover:bg-[#726857] text-white font-medium tracking-wide transition-colors duration-200 rounded-none hover:shadow-lg text-xs md:text-sm w-full sm:w-auto">
+                                    CONTACT OUR EXPERTS
+                                </button>
+                            </Link>
+                        </div>
 
                     </div>
 

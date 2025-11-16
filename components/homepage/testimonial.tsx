@@ -116,7 +116,7 @@ export default function TestimonialsSection() {
           <h2 className="trajan-pro text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-gray-900 mb-3 md:mb-4">
             What Our Clients Are Saying
           </h2>
-          <p className="arial-nova font-medium text-sm sm:text-base md:text-lg text-gray-600 max-w-5xl mx-auto px-4">
+          <p className="arial-nova font-medium text-sm sm:text-base md:text-lg text-gray-600 max-w-xs md:max-w-5xl mx-auto px-4">
             We are proud to serve a discerning clientele of entrepreneurs and
             executives who demand excellence. Our 98% client retention rate is a
             testament to the trust they place in our strategic counsel and the
@@ -214,7 +214,7 @@ export default function TestimonialsSection() {
                     </div>
 
                     {/* Testimonial Content */}
-                    <blockquote className="arial-nova font-medium text-sm sm:text-base md:text-lg lg:text-xl text-[#4D4946] max-w-full lg:max-w-2xl leading-relaxed mb-4 md:mb-6 lg:mb-8 -translate-y-2 md:-translate-y-8 lg:-translate-y-12">
+                    <blockquote className="arial-nova font-medium text-md sm:text-base md:text-lg lg:text-xl text-[#4D4946] max-w-xs lg:max-w-2xl leading-relaxed mb-4 md:mb-6 lg:mb-8 -translate-y-2 md:-translate-y-8 lg:-translate-y-12">
                       {testimonial.content}
                     </blockquote>
 

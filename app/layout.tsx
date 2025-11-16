@@ -40,7 +40,7 @@ export default function RootLayout({
         className={cn(
           geistSans.variable,
           geistMono.variable,
-          "antialiased min-h-screen bg-background text-foreground font-body overflow-x-hidden"
+          "antialiased bg-background text-foreground font-body overflow-x-hidden"
         )}
       >
         <PageLoader />

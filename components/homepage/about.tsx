@@ -30,7 +30,7 @@ export function About() {
               Lewis
             </h3>
 
-            <p className="arial-nova mt-4 sm:mt-6 text-sm md:text-[17px] text-[#4D4946] leading-normal md:max-w-[570px]">
+            <p className="arial-nova mt-4 sm:mt-6 text-[13px] md:text-[17px] text-[#4D4946] leading-normal md:max-w-[570px]">
               In a world of complex cross-border regulations and unqualified advice,
               clarity is your greatest asset. I am Lewis, a UK-chartered accountant and
               international tax strategist. My firm was founded on a single principle:

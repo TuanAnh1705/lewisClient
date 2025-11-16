@@ -120,7 +120,7 @@ export default function TailoredSection() {
 
                 {/* ✅ Wrapper để căn giữa toàn bộ grid */}
                 <div className="flex justify-center">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 max-w-6xl w-full">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 max-w-6xl w-full mx-auto justify-items-center">
                         {/* Column 1: Process Optimization */}
                         <div className="text-center md:text-start space-y-4 md:space-y-6">
                             <div className="flex justify-center md:justify-start mb-4 md:mb-8">
@@ -145,13 +145,13 @@ export default function TailoredSection() {
                         {/* Column 2: Cash Flow Efficiency */}
                         <div className="text-center md:text-start space-y-4 md:space-y-6">
                             <div className="flex justify-center md:justify-start mb-4 md:mb-8">
-                                <div className="w-12 h-12 md:w-16 md:h-16 rounded flex items-start justify-start">
+                                <div className="w-14 h-10 md:w-20 md:h-16 rounded flex items-start justify-start">
                                     <Image 
                                         src="/assets/sv17.png" 
                                         alt="Cash Flow Efficiency" 
                                         width={64} 
                                         height={64}
-                                        className="w-12 h-12 md:w-16 md:h-16"
+                                        className="w-14 h-10 md:w-20 md:h-15"
                                     />
                                 </div>
                             </div>
@@ -166,13 +166,13 @@ export default function TailoredSection() {
                         {/* Column 3: Certainty & Compliance */}
                         <div className="text-center md:text-start space-y-4 md:space-y-6">
                             <div className="flex justify-center md:justify-start mb-4 md:mb-8">
-                                <div className="w-12 h-12 md:w-16 md:h-16 rounded flex items-start justify-start">
+                                <div className="w-12 h-10 md:w-18 md:h-16 rounded flex items-start justify-start">
                                     <Image 
                                         src="/assets/sv18.png" 
                                         alt="Certainty & Compliance" 
                                         width={64} 
                                         height={64}
-                                        className="w-12 h-12 md:w-16 md:h-16"
+                                        className="w-12 h-10 md:w-18 md:h-15"
                                     />
                                 </div>
                             </div>

@@ -35,18 +35,18 @@ export const FooterSection = () => {
 
   return (
     <>
-      <footer className="bg-[#041122] text-white py-12 px-6 md:px-12 lg:px-20">
+      <footer className="bg-[#041122] text-white py-12 px-6 md:px-12 lg:px-20 md:mt-0">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {/* Left Column */}
-            <div>
+            <div className="flex flex-col items-start">
               {/* 👇 THAY ĐỔI: Dùng <Link> và onClick */}
               <Link
                 href="/"
                 onClick={(e) => handleLinkClick(e, "/")}
                 className="inline-block"
               >
-                <div className="mb-11 pl-2">
+                <div className="mb-11 md:pl-2 self-start transform -translate-x-11 md:translate-x-0">
                   <Image
                     src="/assets/logoLight.png"
                     alt="LSJ TAX"
@@ -55,10 +55,11 @@ export const FooterSection = () => {
                     priority
                   />
                 </div>
+
               </Link>
               {/* 👆 KẾT THÚC THAY ĐỔI */}
 
-              <div className="arial-nova text-sm flex items-center gap-2 font-medium mb-2 pl-11">
+              <div className="arial-nova text-sm flex items-center gap-2 font-medium mb-2 md:pl-11 justify-start">
                 <MapPin size={20} className="text-[#BC9750]" />
                 <a
                   href="https://maps.app.goo.gl/XvLFSm3DThKU9fx96"
@@ -70,7 +71,7 @@ export const FooterSection = () => {
                 </a>
               </div>
 
-              <div className="arial-nova text-sm flex items-center gap-2 font-medium pl-11">
+              <div className="arial-nova text-sm flex items-center gap-2 font-medium md:pl-11 justify-start">
                 <Mail size={20} className="text-[#BC9750]" />
                 <a
                   href="mailto:lsjtax@info.com"
@@ -100,11 +101,10 @@ export const FooterSection = () => {
                         <Link
                           href={item.href}
                           onClick={(e) => handleLinkClick(e, item.href)}
-                          className={`block text-sm text-gray-300 transition-all duration-300 transform hover:translate-x-1 ${
-                            pathname === item.href
+                          className={`block text-sm text-gray-300 transition-all duration-300 transform hover:translate-x-1 ${pathname === item.href
                               ? "text-[#BC9750]"
                               : "hover:text-[#BC9750]"
-                          }`}
+                            }`}
                         >
                           {item.name}
                         </Link>
@@ -139,11 +139,10 @@ export const FooterSection = () => {
                         <Link
                           href={item.href}
                           onClick={(e) => handleLinkClick(e, item.href)}
-                          className={`block text-sm text-gray-300 transition-all duration-300 transform hover:translate-x-1 ${
-                            pathname === item.href
+                          className={`block text-sm text-gray-300 transition-all duration-300 transform hover:translate-x-1 ${pathname === item.href
                               ? "text-[#BC9750]"
                               : "hover:text-[#BC9750]"
-                          }`}
+                            }`}
                         >
                           {item.name}
                         </Link>

@@ -121,17 +121,17 @@ export default function TailoredSection() {
 
                 {/* ✅ Wrapper để căn giữa toàn bộ grid */}
                 <div className="flex justify-center">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 max-w-6xl w-full">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 max-w-6xl w-full mx-auto justify-items-center">
                         {/* Column 1: Commercial Acumen */}
                         <div className="text-center md:text-start space-y-4 md:space-y-6">
                             <div className="flex justify-center md:justify-start mb-4 md:mb-8">
-                                <div className="w-12 h-12 md:w-16 md:h-16 rounded flex items-start justify-start">
+                                <div className="w-12 h-12 md:w-19 md:h-16 rounded flex items-start justify-start">
                                     <Image 
                                         src="/assets/sv11.png" 
                                         alt="Commercial Acumen" 
                                         width={64} 
                                         height={64}
-                                        className="w-12 h-12 md:w-16 md:h-16"
+                                        className="w-12 h-12 md:w-19 md:h-19"
                                     />
                                 </div>
                             </div>
@@ -146,13 +146,13 @@ export default function TailoredSection() {
                         {/* Column 2: Risk Mitigation */}
                         <div className="text-center md:text-start space-y-4 md:space-y-6">
                             <div className="flex justify-center md:justify-start mb-4 md:mb-8">
-                                <div className="w-12 h-12 md:w-16 md:h-16 rounded flex items-start justify-start">
+                                <div className="w-12 h-14 md:w-16 md:h-16 rounded flex items-start justify-start">
                                     <Image 
                                         src="/assets/sv12.png" 
                                         alt="Risk Mitigation" 
                                         width={64} 
                                         height={64}
-                                        className="w-12 h-12 md:w-16 md:h-16"
+                                        className="w-12 h-14 md:w-16 md:h-19"
                                     />
                                 </div>
                             </div>
@@ -167,13 +167,13 @@ export default function TailoredSection() {
                         {/* Column 3: Growth Partnership */}
                         <div className="text-center md:text-start space-y-4 md:space-y-6">
                             <div className="flex justify-center md:justify-start mb-4 md:mb-11">
-                                <div className="w-10 h-10 md:w-12 md:h-12 rounded flex items-start justify-start">
+                                <div className="w-10 h-14 md:w-12 md:h-12 rounded flex items-start justify-start">
                                     <Image 
                                         src="/assets/sv13.png" 
                                         alt="Growth Partnership" 
                                         width={64} 
                                         height={64}
-                                        className="w-10 h-10 md:w-16 md:h-16"
+                                        className="w-10 h-14 md:w-16 md:h-18"
                                     />
                                 </div>
                             </div>

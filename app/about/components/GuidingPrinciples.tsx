@@ -12,9 +12,6 @@ interface PrincipleCardProps {
     hoveredIndex: number | null;
     onHover: () => void;
     onLeave: () => void;
-    // Mobile props
-    isActiveOnMobile: boolean;
-    onMobileClick: () => void;
 }
 
 const PrincipleCard = ({
@@ -26,14 +23,11 @@ const PrincipleCard = ({
     hoveredIndex,
     onHover,
     onLeave,
-    isActiveOnMobile,
-    onMobileClick
 }: PrincipleCardProps) => {
 
     const [isDesktop, setIsDesktop] = useState(false);
 
     useEffect(() => {
-        // Chỉ chạy trên client side
         const checkDesktop = () => {
             setIsDesktop(window.innerWidth >= 1024);
         };
@@ -49,7 +43,7 @@ const PrincipleCard = ({
     const isRight = index === 2;
 
     const getWidth = () => {
-        if (!isDesktop) return undefined; // Mobile/tablet: không set width
+        if (!isDesktop) return undefined;
         
         if (hoveredIndex === null) {
             return isCenter ? '530px' : '360px';
@@ -70,36 +64,37 @@ const PrincipleCard = ({
 
     return (
         <div
-            className="relative h-[300px] md:h-[350px] lg:h-[400px] overflow-hidden cursor-pointer transition-all duration-700 ease-out w-full lg:w-auto"
+            className="relative h-[300px] md:h-[350px] lg:h-[400px] overflow-hidden lg:cursor-pointer lg:transition-all lg:duration-700 lg:ease-out w-full lg:w-auto"
             onMouseEnter={onHover}
             onMouseLeave={onLeave}
-            onClick={onMobileClick}
             style={{
-                width: getWidth(), // Bây giờ sẽ consistent giữa server và client
+                width: getWidth(),
                 transformOrigin: getTransformOrigin(),
-                animation: `fadeInUp 0.8s ease-out ${index * 0.2}s both`
+                animation: isDesktop ? `fadeInUp 0.8s ease-out ${index * 0.2}s both` : 'none'
             }}
         >
             {/* Background Image */}
-            <div className="absolute inset-0 transition-transform duration-700 ease-out lg:hover:scale-110">
+            <div className="absolute inset-0 lg:transition-transform lg:duration-700 lg:ease-out lg:hover:scale-110">
                 <Image src={image} alt={title} fill className="object-cover" />
 
-                {/* Overlay trắng */}
+                {/* Overlay trắng - chỉ trên desktop */}
                 <div
-                    className={`absolute inset-0 bg-linear-to-r from-white/90 to-transparent transition-opacity duration-700 
-                        ${isActiveOnMobile ? 'opacity-0' : 'opacity-100'}
+                    className={`absolute inset-0 bg-linear-to-r from-white/90 to-transparent 
+                        opacity-0
                         ${isExpanded ? 'lg:opacity-0' : 'lg:opacity-100'}
+                        lg:transition-opacity lg:duration-700
                     `}
                 />
 
-                {/* Overlay đen */}
+                {/* Overlay đen - chỉ trên desktop */}
                 <div
-                    className={`absolute inset-0 bg-linear-to-r from-[#041122] to-transparent transition-all duration-700
-                        ${isActiveOnMobile ? 'opacity-100' : 'opacity-0'}
+                    className={`absolute inset-0 bg-linear-to-r from-[#041122] to-transparent
+                        opacity-100
                         ${isExpanded ? 'lg:opacity-100' : 'lg:opacity-0'}
+                        lg:transition-all lg:duration-700
                     `}
                     style={{
-                        animation: isExpanded || isActiveOnMobile
+                        animation: isDesktop && isExpanded
                             ? 'slideInFromLeft 0.7s ease-out forwards'
                             : 'none'
                     }}
@@ -110,8 +105,9 @@ const PrincipleCard = ({
             <div className="relative h-full flex flex-col justify-between p-6 md:p-8 lg:p-10 lg:pl-5">
                 {/* Title */}
                 <h3
-                    className={`trajan-pro text-xl md:text-2xl lg:text-3xl font-serif transition-all duration-500 
-                        ${isActiveOnMobile ? 'text-white' : 'text-[#000000]'}
+                    className={`trajan-pro text-xl md:text-2xl lg:text-3xl font-serif 
+                        text-white
+                        lg:transition-all lg:duration-500
                         ${isExpanded ? 'lg:text-white' : 'lg:text-[#000000]'}
                         ${isHovered ? 'lg:-translate-y-2' : ''}
                     `}
@@ -123,13 +119,8 @@ const PrincipleCard = ({
                 <div className="space-y-3">
                     <p
                         className={`arial-nova text-sm md:text-base lg:text-lg leading-normal 
-                            transition-all ease-out
-                            
-                            ${isActiveOnMobile 
-                                ? 'opacity-100 translate-y-0 text-white duration-500' 
-                                : 'opacity-0 translate-y-3 text-[#000000] duration-150'
-                            }
-                            
+                            text-white opacity-100
+                            lg:transition-all lg:ease-out
                             ${isExpanded
                                 ? 'lg:opacity-100 lg:translate-y-0 lg:duration-500 lg:delay-580 lg:text-white'
                                 : 'lg:opacity-0 lg:translate-y-3 lg:duration-150 lg:delay-0 lg:text-[#000000]'
@@ -146,7 +137,6 @@ const PrincipleCard = ({
 
 export default function GuidingPrinciples() {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-    const [mobileActiveIndex, setMobileActiveIndex] = useState<number | null>(1);
 
     const principles = [
         {
@@ -165,10 +155,6 @@ export default function GuidingPrinciples() {
             image: '/assets/ab4.png'
         }
     ];
-
-    const handleMobileClick = (index: number) => {
-        setMobileActiveIndex(mobileActiveIndex === index ? null : index);
-    };
 
     return (
         <section className="bg-[#F2F0EC] py-8 md:py-10 lg:py-14">
@@ -189,8 +175,6 @@ export default function GuidingPrinciples() {
                             hoveredIndex={hoveredIndex}
                             onHover={() => setHoveredIndex(index)}
                             onLeave={() => setHoveredIndex(null)}
-                            isActiveOnMobile={mobileActiveIndex === index}
-                            onMobileClick={() => handleMobileClick(index)}
                         />
                     ))}
                 </div>
