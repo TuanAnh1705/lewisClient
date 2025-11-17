@@ -26,7 +26,7 @@ export default function Banner() {
                     </h1>
                     
                     {/* THAY ĐỔI Ở ĐÂY: Thêm 'mt-6' */}
-                    <p className='arial-nova lg:max-w-2xl font-medium text-sm md:text-lg lg:text-xl text-white mt-5 md:mt-16'>
+                    <p className='arial-nova lg:max-w-2xl font-medium text-xs md:text-lg lg:text-xl text-white mt-5 md:mt-16'>
                         Our clients are at the top of their fields. They are C-level executives, innovative founders, and savvy investors who demand the highest level of expertise. Here are some of their stories.
                     </p>
                 </div>

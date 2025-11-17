@@ -20,15 +20,15 @@ export function Hero() {
       {/* Content */}
       <div className="relative z-10 container mx-auto h-full flex flex-col items-center justify-center text-center text-white px-4">
         
-        <h1 className="text-xl sm:text-3xl md:text-6xl font-medium tracking-tight max-w-xs md:max-w-4xl trajan-pro leading-snug">
+        <h1 className="text-xl sm:text-3xl md:text-6xl font-medium tracking-tight max-w-xs md:max-w-4xl trajan-pro md:leading-16">
           Navigate International Tax with Confidence.
         </h1>
 
-        <h2 className="text-xl sm:text-3xl md:text-6xl font-medium mt-2 trajan-pro text-[#BC9750] leading-snug">
+        <h2 className="text-xl sm:text-3xl md:text-6xl font-medium trajan-pro text-[#BC9750] md:leading-16">
           Maximise Your Wealth.
         </h2>
 
-        <p className="arial-nova mt-4 text-xs sm:text-sm md:text-lg max-w-xs md:max-w-xl font-body leading-relaxed">
+        <p className="arial-nova mt-4 text-xs md:text-lg lg:text-xl max-w-xs md:max-w-xl font-body leading-relaxed">
           Bespoke tax strategies for high-net-worth individuals and entrepreneurs
           in the UK and Europe.
         </p>

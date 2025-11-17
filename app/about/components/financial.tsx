@@ -20,7 +20,7 @@ export default function FinancialExpertise() {
 
         {/* Text */}
         <div className="relative z-10 text-center px-6">
-          <h1 className="trajan-pro text-2xl md:max-w-5xl md:text-5xl font-medium text-white leading-tight">
+          <h1 className="trajan-pro max-w-xs text-2xl md:max-w-5xl md:text-5xl font-medium text-white leading-tight">
             The Expertise and Philosophy Behind{' '}
             <span className="text-[#BC9750]">your Financial Success</span>
           </h1>

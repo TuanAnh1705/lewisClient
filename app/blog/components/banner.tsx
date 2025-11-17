@@ -26,7 +26,7 @@ export default function Banner() {
                     </h1>
                     
                     {/* THAY ĐỔI Ở ĐÂY: Thêm 'mt-6' */}
-                    <p className='arial-nova lg:max-w-2xl font-medium text-md md:text-lg lg:text-xl text-white mt-5 md:mt-16'>
+                    <p className='arial-nova lg:max-w-2xl font-medium text-xs md:text-lg lg:text-xl text-white mt-5 md:mt-16'>
                         Stay ahead of complex international tax regulations and opportunities with our latest analysis and insights.
                     </p>
                 </div>
